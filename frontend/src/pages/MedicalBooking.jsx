@@ -272,7 +272,6 @@ export default function MedicalBooking() {
   useEffect(() => {
     fetchClinics();
     fetchAppointments();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function submitBooking(e) {
