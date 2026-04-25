@@ -1,0 +1,43 @@
+# 依賴
+**/node_modules
+**/npm-debug.log*
+**/yarn-error.log*
+
+# 編譯產物（會在 build 過程重新生成）
+**/build
+**/dist
+**/.cache
+
+# 開發環境檔案
+.env
+.env.local
+.env.*.local
+.git
+.gitignore
+.vscode
+.idea
+.DS_Store
+
+# Docker 相關
+docker-compose*.yml
+Dockerfile
+.dockerignore
+
+# SQLite 本地資料庫（容器內會建立新的或掛載 volume）
+**/insurance.db
+**/insurance.db-journal
+
+# 日誌與測試
+**/*.log
+**/coverage
+**/.nyc_output
+
+# 文件
+**/*.md
+**/README*
+**/LICENSE
+
+# 其他不必要檔案
+**/凍住希望卵畫未來_決賽.pdf
+**/test-gemini.js
+**/inspect.js

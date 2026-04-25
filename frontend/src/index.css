@@ -1,0 +1,49 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #5B6EC7;
+  --primary-dark: #1E3A6E;
+  --primary-light: #8A99D6;
+  --accent: #F5A623;
+  --accent-dark: #D4891A;
+  --bg: #F5F3EE;
+  --white: #FFFFFF;
+  --text-dark: #1E3A6E;
+  --text-gray: #6B7280;
+  --border: #D1D5DB;
+  --error: #EF4444;
+  --success: #10B981;
+}
+
+body {
+  font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg);
+  color: var(--text-dark);
+  min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+button { font-family: inherit; }
+input, select, textarea { font-family: inherit; }
