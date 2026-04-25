@@ -7,7 +7,8 @@ WORKDIR /app/frontend
 
 # 先複製 lock 檔以快取 npm install
 COPY frontend/package*.json ./
-RUN npm ci
+# 使用 npm install 而非 npm ci，避免 lock 檔與 recharts 等套件的版本不一致問題
+RUN npm install --no-audit --no-fund --legacy-peer-deps
 
 # 複製前端原始碼並編譯
 COPY frontend/ ./
@@ -26,7 +27,7 @@ WORKDIR /app
 
 # 安裝後端 production 依賴
 COPY backend/package*.json ./
-RUN npm ci --omit=dev && npm cache clean --force
+RUN npm install --omit=dev --no-audit --no-fund && npm cache clean --force
 
 # 複製後端原始碼
 COPY backend/ ./
