@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Modal from '../components/shared/Modal';
+import useViewport from '../components/shared/useViewport';
 
 const TABS = [
   { key: '菁英女性',  icon: '👑', color: '#F687B3' },
@@ -48,12 +49,12 @@ const styles = {
     border: 'none',
   }),
 
-  layout: {
+  layout: (isMobile) => ({
     display: 'grid',
-    gridTemplateColumns: '1.7fr 1fr',
-    gap: 24,
+    gridTemplateColumns: isMobile ? '1fr' : '1.7fr 1fr',
+    gap: isMobile ? 18 : 24,
     alignItems: 'start',
-  },
+  }),
 
   // Forum posts
   postsHeader: { fontSize: 14, color: '#6B7280', fontWeight: 600, marginBottom: 8 },
@@ -70,10 +71,12 @@ const styles = {
   postTag: {
     background: '#FCE7F3',
     color: '#BE185D',
-    padding: '3px 10px',
-    borderRadius: 10,
-    fontSize: 11,
+    padding: '2px 8px',
+    borderRadius: 8,
+    fontSize: 10,
     fontWeight: 700,
+    whiteSpace: 'nowrap',
+    display: 'inline-block',
   },
   postTitle: { fontSize: 16, fontWeight: 800, color: '#1A365D', marginBottom: 6 },
   postExcerpt: { fontSize: 13, color: '#6B7280', lineHeight: 1.6, marginBottom: 12 },
@@ -336,6 +339,7 @@ function timeAgo(iso) {
 }
 
 export default function Community() {
+  const { isMobile } = useViewport();
   const [activeTab, setActiveTab] = useState('菁英女性');
   const [posts, setPosts] = useState([]);
   const [loadingPosts, setLoadingPosts] = useState(true);
@@ -435,7 +439,7 @@ export default function Community() {
         ))}
       </div>
 
-      <div style={styles.layout}>
+      <div style={styles.layout(isMobile)}>
         {/* 左側：論壇文章 */}
         <div>
           <div style={styles.postsHeader}>

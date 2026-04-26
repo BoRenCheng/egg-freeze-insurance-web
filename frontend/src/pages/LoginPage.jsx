@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import useViewport from '../components/shared/useViewport';
 
 const styles = {
   page: {
@@ -292,6 +293,7 @@ const styles = {
 };
 
 export default function LoginPage() {
+  const { isMobile } = useViewport();
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({});
@@ -336,7 +338,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div style={styles.page}>
+    <div style={{ ...styles.page, flexDirection: isMobile ? 'column' : 'row' }}>
       <style>{`
         @keyframes spin { to { transform: rotate(360deg); } }
         button:not(:disabled):hover { filter: brightness(1.05); }
@@ -373,7 +375,7 @@ export default function LoginPage() {
       </div>
 
       {/* 右側登入表單 */}
-      <div style={styles.rightPanel}>
+      <div style={{ ...styles.rightPanel, width: isMobile ? '100%' : 480, padding: isMobile ? '40px 24px' : '60px 48px' }}>
         <div style={styles.formHeader}>
           <div style={styles.formTitle}>歡迎回來</div>
           <div style={styles.formSubtitle}>請登入您的帳號以繼續使用服務</div>

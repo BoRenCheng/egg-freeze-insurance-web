@@ -5,6 +5,7 @@ import {
   PieChart, Pie,
 } from 'recharts';
 import MetricCard from '../components/shared/MetricCard';
+import useViewport from '../components/shared/useViewport';
 
 const styles = {
   page: { display: 'flex', flexDirection: 'column', gap: 24 },
@@ -17,9 +18,9 @@ const styles = {
     gap: 18,
   },
 
-  chartsGrid: (visible) => ({
+  chartsGrid: (visible, isMobile) => ({
     display: 'grid',
-    gridTemplateColumns: '2fr 1fr',
+    gridTemplateColumns: isMobile ? '1fr' : '2fr 1fr',
     gap: 20,
     opacity: visible ? 1 : 0,
     transform: visible ? 'translateY(0)' : 'translateY(20px)',
@@ -135,6 +136,7 @@ function CustomTooltip({ active, payload }) {
 }
 
 export default function HealthDashboard() {
+  const { isMobile } = useViewport();
   const [summary, setSummary] = useState(null);
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -197,7 +199,7 @@ export default function HealthDashboard() {
       </div>
 
       {/* 圖表區 */}
-      <div style={styles.chartsGrid(chartsVisible)}>
+      <div style={styles.chartsGrid(chartsVisible, isMobile)}>
         {/* AMH 變化直方圖 */}
         <div style={styles.chartCard}>
           <div style={styles.chartHeader}>

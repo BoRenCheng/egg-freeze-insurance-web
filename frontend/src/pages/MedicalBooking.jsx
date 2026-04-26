@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Modal from '../components/shared/Modal';
 import SkeletonCard from '../components/shared/SkeletonCard';
+import useViewport from '../components/shared/useViewport';
 
 const CITIES = ['台北市', '新北市', '台中市', '高雄市'];
 const DISTRICTS = {
@@ -16,12 +17,18 @@ const styles = {
   pageTitle: { fontSize: 26, fontWeight: 900, color: '#1A365D', display: 'flex', alignItems: 'center', gap: 10 },
   pageSub: { fontSize: 14, color: '#6B7280', marginTop: -16 },
 
-  layout: {
+  layout: (isMobile) => ({
     display: 'grid',
-    gridTemplateColumns: '1.6fr 1fr',
-    gap: 24,
+    gridTemplateColumns: isMobile ? '1fr' : '1.6fr 1fr',
+    gap: isMobile ? 18 : 24,
     alignItems: 'start',
-  },
+  }),
+  searchRow: (isMobile) => ({
+    display: 'grid',
+    gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr) auto',
+    gap: 12,
+    alignItems: 'end',
+  }),
   leftCol: { display: 'flex', flexDirection: 'column', gap: 18 },
   rightCol: { display: 'flex', flexDirection: 'column', gap: 18 },
 
@@ -32,7 +39,6 @@ const styles = {
     boxShadow: '0 4px 16px rgba(26,54,93,0.08)',
   },
   searchTitle: { fontSize: 16, fontWeight: 800, color: '#1A365D', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 },
-  searchRow: { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr) auto', gap: 12, alignItems: 'end' },
   fieldLabel: { fontSize: 12, fontWeight: 700, color: '#6B7280', marginBottom: 6, display: 'block' },
   select: {
     width: '100%',
@@ -239,6 +245,7 @@ const styles = {
 };
 
 export default function MedicalBooking() {
+  const { isMobile } = useViewport();
   const [search, setSearch] = useState({ city: '台北市', district: '', type: '' });
   const [clinics, setClinics] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -307,12 +314,12 @@ export default function MedicalBooking() {
       <div style={styles.pageTitle}>🏥 中西醫合作生態系預約</div>
       <div style={styles.pageSub}>搜尋合作診所，享 APP 預約專屬折扣，一站完成檢測、諮詢、療程。</div>
 
-      <div style={styles.layout}>
+      <div style={styles.layout(isMobile)}>
         {/* 左側：搜尋與診所清單 */}
         <div style={styles.leftCol}>
           <div style={styles.searchCard}>
             <div style={styles.searchTitle}>🔍 智能診所搜尋</div>
-            <div style={styles.searchRow}>
+            <div style={styles.searchRow(isMobile)}>
               <div>
                 <label style={styles.fieldLabel}>縣市</label>
                 <select value={search.city}
