@@ -3,11 +3,12 @@
 > 整合保險、生殖醫學（中西醫）、AI 諮詢與用戶社群的 **Insurtech 全端平台**
 > 專為菁英女性、LGBTQ+ 同性伴侶、癌症病友等族群打造的凍卵保險生態系
 
-**線上展示：** 'https://egg-freeze-insurance-web.onrender.com/login'
+**線上展示：** https://egg-freeze-insurance-web.onrender.com/login
+
 **Demo 帳號：** `demo@egg.tw` / `demo123`
 ---
 
-## 📑 目錄
+## 目錄
 
 1. [專案動機與商業背景](#專案動機與商業背景)
 2. [技術棧概覽](#技術棧概覽)
@@ -24,7 +25,7 @@
 
 ---
 
-## 專案動機與商業背景
+## 專案動機與商業背景 -- (參與法國巴黎人壽創新創業競賽 榮獲佳作)
 
 ### 為何做這個？
 
@@ -41,9 +42,9 @@
 ### 解決方案
 
 本專案打造一個**三方共贏的 Insurtech 生態系**：
-- 🏥 **凍卵中心 / 中西醫**：提供療程與調理服務
-- 🛡️ **保險公司**：依年齡與 AMH 值動態定價的個性化保單
-- 👤 **用戶**：透過 APP 一站完成保單管理、健康追蹤、診所預約、AI 諮詢
+- **凍卵中心 / 中西醫**：提供療程與調理服務
+- **保險公司**：依年齡與 AMH 值動態定價的個性化保單
+- **用戶**：一站式完成保單管理、健康追蹤、診所預約、AI 諮詢
 
 ### 目標客群分級
 
@@ -223,79 +224,6 @@ function PrivateRoute({ children }) {
 | **副作用** | `useEffect` | API 呼叫、訂閱、計時器 |
 
 選擇理由：應用規模小、頁面間共享狀態少（僅 user）、不需跨元件通訊複雜邏輯。
-
-## 1.5 視覺亮點實作細節
-
-### a) 健康儀表板的 AMH 趨勢圖（recharts）
-
-```jsx
-<BarChart data={history}>
-  <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" vertical={false} />
-  <Bar dataKey="amh_value" radius={[8, 8, 0, 0]} animationDuration={1200}>
-    {history.map((_, i) => (
-      <Cell key={i} fill={i === history.length - 1 ? '#F687B3' : '#1A365D'} />
-    ))}
-  </Bar>
-</BarChart>
-```
-- 最新一筆用粉色強調，舊資料用品牌深藍
-- 1.2 秒入場動畫，自定義 Tooltip 浮出顯示「年份 + AMH 值」
-
-### b) 保險中心的 Glassmorphism 卡片
-
-```jsx
-glassCard: {
-  background: 'rgba(255,255,255,0.18)',
-  backdropFilter: 'blur(14px)',
-  WebkitBackdropFilter: 'blur(14px)',
-  border: '1px solid rgba(255,255,255,0.32)',
-  borderRadius: 16,
-}
-```
-配合外層的多色漸層背景產生**真實的毛玻璃**效果，不是純透明 overlay。
-
-### c) CountUp 數字滾動 hook
-
-自製動畫 hook，用 `requestAnimationFrame` + cubic ease-out：
-```jsx
-function useCountUp(target, duration = 800) {
-  // 用 RAF 實現 60fps 平滑插值
-  const eased = 1 - Math.pow(1 - progress, 3);  // ease-out cubic
-  const current = Math.round(from + (to - from) * eased);
-}
-```
-保費試算切換選項時，數字會「滾」到新值，而非瞬間跳變。
-
-### d) AI Chat Bubble 與 Typing 動畫
-
-訊息泡泡用 CSS 圓角不對稱 + flex `row-reverse` 區分使用者 / AI：
-```jsx
-msgRow: (isUser) => ({
-  flexDirection: isUser ? 'row-reverse' : 'row',
-})
-```
-等待回應時的「卵卵助理正在思考...」三點動畫：
-```css
-@keyframes typingPulse {
-  0%, 60%, 100% { transform: scale(0.8); opacity: 0.4; }
-  30% { transform: scale(1.2); opacity: 1; }
-}
-```
-三個圓點分別 delay `0s / 0.2s / 0.4s` 產生波浪效果。
-
-### e) 醫療預約的手機框 UI
-
-模擬 iPhone 介面呈現預約資訊，提升「親切感」：
-```jsx
-phoneFrame: {
-  background: 'linear-gradient(160deg, #FFE4ED 0%, #FFFFFF 60%)',
-  borderRadius: 28,
-  padding: 18,
-  border: '6px solid #1A365D',
-  boxShadow: '0 16px 40px rgba(26,54,93,0.2)',
-}
-```
-頂部仿造狀態列（時間 / 標題 / 訊號電量 emoji），增強行動裝置使用情境。
 
 ---
 
@@ -1098,32 +1026,9 @@ node --experimental-sqlite inspect.js   # 列出所有表的內容
 
 ---
 
-# 未來改善方向
-
-### 技術面
-- [ ] 加入 unit test（Jest + React Testing Library）
-- [ ] 加入 E2E test（Playwright）
-- [ ] 改用 PostgreSQL（搭配 Prisma ORM）以支援更高併發
-- [ ] 加入 Redis 快取常見 API 回應
-- [ ] 改用 TypeScript 提升型別安全
-
-### 功能面
-- [ ] 串接金流（綠界 / Stripe）支援線上繳費
-- [ ] 加入 Email 通知（保費到期、預約提醒）
-- [ ] 行動裝置 PWA 化
-- [ ] 加入後台管理介面（查看所有用戶、保單、理賠）
-- [ ] AI 諮詢加入語音輸入（Web Speech API）
-
-### DevOps 面
-- [ ] GitHub Actions CI（PR 跑測試 + lint）
-- [ ] Sentry 錯誤監控
-- [ ] 改用 Cloudflare 加速靜態資源
-
----
-
 # 授權
 
-本專案僅供實習作品展示使用。
+本專案僅供實習以及推甄作品展示使用。
 PDF 簡報內容、品牌名稱、Logo 為原團隊智慧財產。
 
 ---
