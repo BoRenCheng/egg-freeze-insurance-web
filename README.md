@@ -1029,6 +1029,8 @@ node --experimental-sqlite inspect.js   # 列出所有表的內容
 
 本專案僅供實習以及推甄作品展示使用。
 PDF 簡報內容、品牌名稱、Logo 為原團隊智慧財產。
+Copyright (c) 2026 Bo-Ren Cheng(BoRenCheng)
+本專案採用 MIT License 授權。
 
 ---
 
