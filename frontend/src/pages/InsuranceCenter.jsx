@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import Modal from '../components/shared/Modal';
 import CountUp from '../components/shared/CountUp';
+import Icon from '../components/shared/Icon';
 
 const PREMIUM_TABLE = {
   '25-30_normal_false':   { base: 8000,  max: 10000 },
@@ -308,7 +309,10 @@ export default function InsuranceCenter() {
   return (
     <div style={styles.page}>
       <div>
-        <div style={styles.pageTitle}>🛡️ 保險契約與理賠中心</div>
+        <div style={styles.pageTitle}>
+          <Icon name="shield" size={26} color="#1A365D" />
+          保險契約與理賠中心
+        </div>
       </div>
       <div style={styles.pageSub}>管理您的孕（運）轉乾坤險保單，查看保障範圍、試算保費與線上申請理賠。</div>
 

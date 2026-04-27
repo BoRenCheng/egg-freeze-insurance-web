@@ -3,6 +3,7 @@ import axios from 'axios';
 import Modal from '../components/shared/Modal';
 import SkeletonCard from '../components/shared/SkeletonCard';
 import useViewport from '../components/shared/useViewport';
+import Icon from '../components/shared/Icon';
 
 const CITIES = ['台北市', '新北市', '台中市', '高雄市'];
 const DISTRICTS = {
@@ -313,14 +314,20 @@ export default function MedicalBooking() {
 
   return (
     <div style={styles.page}>
-      <div style={styles.pageTitle}>🏥 中西醫合作生態系預約</div>
+      <div style={styles.pageTitle}>
+        <Icon name="hospital" size={26} color="#1A365D" />
+        中西醫合作生態系預約
+      </div>
       <div style={styles.pageSub}>搜尋合作診所，享 APP 預約專屬折扣，一站完成檢測、諮詢、療程。</div>
 
       <div style={styles.layout(isMobile)}>
         {/* 左側：搜尋與診所清單 */}
         <div style={styles.leftCol}>
           <div style={styles.searchCard}>
-            <div style={styles.searchTitle}>🔍 智能診所搜尋</div>
+            <div style={styles.searchTitle}>
+              <Icon name="search" size={18} color="#1A365D" />
+              智能診所搜尋
+            </div>
             <div style={styles.searchRow(isMobile)}>
               <div>
                 <label style={styles.fieldLabel}>縣市</label>

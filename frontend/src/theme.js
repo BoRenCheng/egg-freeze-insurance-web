@@ -34,11 +34,14 @@ export const colors = {
 };
 
 export const shadows = {
-  card:       '0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)',
-  cardHover:  '0 10px 25px rgba(0,0,0,0.08), 0 4px 10px rgba(0,0,0,0.04)',
-  navbar:     '0 1px 3px rgba(0,0,0,0.05)',
-  cta:        '0 4px 14px rgba(246,135,179,0.35)',
-  modal:      '0 24px 64px rgba(0,0,0,0.18)',
+  // 加深的卡片陰影
+  card:       '0 4px 14px rgba(15,23,42,0.10), 0 2px 4px rgba(15,23,42,0.06)',
+  cardHover:  '0 18px 40px rgba(15,23,42,0.18), 0 6px 14px rgba(15,23,42,0.10)',
+  navbar:     '0 2px 8px rgba(15,23,42,0.08)',
+  cta:        '0 6px 18px rgba(246,135,179,0.45), 0 2px 6px rgba(246,135,179,0.25)',
+  modal:      '0 24px 64px rgba(15,23,42,0.30)',
+  // 強調用
+  bold:       '0 12px 32px rgba(15,23,42,0.16), 0 4px 8px rgba(15,23,42,0.08)',
 };
 
 export const radius = {

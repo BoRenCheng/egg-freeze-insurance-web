@@ -6,6 +6,7 @@ import {
 } from 'recharts';
 import MetricCard from '../components/shared/MetricCard';
 import useViewport from '../components/shared/useViewport';
+import Icon from '../components/shared/Icon';
 
 const styles = {
   page: { display: 'flex', flexDirection: 'column', gap: 24 },
@@ -170,7 +171,10 @@ export default function HealthDashboard() {
 
   return (
     <div style={styles.page}>
-      <div style={styles.pageTitle}>📊 個人健康數據儀表板</div>
+      <div style={styles.pageTitle}>
+        <Icon name="chart" size={26} color="#1A365D" />
+        個人健康數據儀表板
+      </div>
       <div style={styles.pageSub}>掌握您的卵子存放資訊、AMH 變化趨勢與整體生育健康狀況。</div>
 
       {/* 三大指標卡片 */}

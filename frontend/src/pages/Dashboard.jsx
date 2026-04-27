@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { colors, shadows, radius } from '../theme';
 import useViewport from '../components/shared/useViewport';
+import Icon from '../components/shared/Icon';
 
 const FEATURE_CARDS = [
   {
     to: '/health',
-    icon: '📊',
+    iconName: 'chart',
     title: '健康儀表板',
     desc: 'AMH 變化趨勢、卵子數量、受孕機率預測',
     accent: colors.brandPink,
@@ -15,7 +16,7 @@ const FEATURE_CARDS = [
   },
   {
     to: '/insurance',
-    icon: '🛡️',
+    iconName: 'shield',
     title: '保險理賠中心',
     desc: '保單詳情、保費試算、線上理賠申請',
     accent: colors.brandNavy,
@@ -23,7 +24,7 @@ const FEATURE_CARDS = [
   },
   {
     to: '/booking',
-    icon: '🏥',
+    iconName: 'hospital',
     title: '醫療生態預約',
     desc: '中西醫合作診所搜尋、線上預約',
     accent: colors.brandGold,
@@ -31,7 +32,7 @@ const FEATURE_CARDS = [
   },
   {
     to: '/community',
-    icon: '💬',
+    iconName: 'message',
     title: '社群支持',
     desc: '專屬族群論壇、法律百科、AI 諮詢',
     accent: colors.success,
@@ -40,10 +41,10 @@ const FEATURE_CARDS = [
 ];
 
 const STATS = [
-  { value: '4', label: '客群分級', icon: '👥' },
-  { value: '5 年', label: '保險年限', icon: '📅' },
-  { value: '12+', label: '合作診所', icon: '🏥' },
-  { value: '24/7', label: 'AI 諮詢', icon: '🤖' },
+  { value: '4',    label: '客群分級',  iconName: 'users' },
+  { value: '5 年', label: '保險年限',  iconName: 'calendar' },
+  { value: '12+',  label: '合作診所',  iconName: 'hospital' },
+  { value: '24/7', label: 'AI 諮詢',   iconName: 'sparkles' },
 ];
 
 export default function Dashboard() {
@@ -77,7 +78,9 @@ export default function Dashboard() {
         paddingBottom: isMobile ? 8 : 16,
       }}>
         <div style={{
-          display: 'inline-block',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 8,
           padding: '6px 14px',
           background: colors.brandPinkBg,
           color: colors.brandPink,
@@ -87,7 +90,8 @@ export default function Dashboard() {
           letterSpacing: 1,
           marginBottom: 20,
         }}>
-          🥚 INSURTECH × FERTILITY
+          <Icon name="sparkles" size={14} color={colors.brandPink} />
+          INSURTECH × FERTILITY
         </div>
 
         <h1 style={{
@@ -134,10 +138,14 @@ export default function Dashboard() {
             cursor: 'pointer',
             boxShadow: shadows.cta,
             transition: 'transform 0.15s',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 8,
           }}
             onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-2px)'}
             onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}>
-            查看我的健康數據 →
+            查看我的健康數據
+            <Icon name="arrowRight" size={16} color="#FFFFFF" />
           </button>
           <button onClick={() => navigate('/insurance')} style={{
             padding: '14px 28px',
@@ -169,7 +177,16 @@ export default function Dashboard() {
       }}>
         {STATS.map(s => (
           <div key={s.label} style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 28, marginBottom: 6 }}>{s.icon}</div>
+            <div style={{
+              width: 44, height: 44, borderRadius: 12,
+              background: colors.bgWhite,
+              border: `1px solid ${colors.borderLight}`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              margin: '0 auto 10px',
+              color: colors.brandPink,
+            }}>
+              <Icon name={s.iconName} size={22} color={colors.brandPink} />
+            </div>
             <div style={{
               fontSize: isMobile ? 22 : 30,
               fontWeight: 900,
@@ -320,10 +337,10 @@ function FeatureCard({ card, navigate }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: 28,
         marginBottom: 18,
+        color: card.accent,
       }}>
-        {card.icon}
+        <Icon name={card.iconName} size={28} color={card.accent} strokeWidth={1.6} />
       </div>
       <h3 style={{
         fontSize: 17,
@@ -345,12 +362,16 @@ function FeatureCard({ card, navigate }) {
         display: 'flex',
         alignItems: 'center',
         gap: 6,
+        transition: 'gap 0.2s',
       }}>
         進入服務
         <span style={{
+          display: 'inline-flex',
           transition: 'transform 0.2s',
           transform: hover ? 'translateX(4px)' : 'translateX(0)',
-        }}>→</span>
+        }}>
+          <Icon name="arrowRight" size={14} color={card.accent} />
+        </span>
       </div>
     </div>
   );

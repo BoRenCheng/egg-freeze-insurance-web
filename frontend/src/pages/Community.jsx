@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Modal from '../components/shared/Modal';
 import useViewport from '../components/shared/useViewport';
+import Icon from '../components/shared/Icon';
 
 const TABS = [
-  { key: '菁英女性',  icon: '👑', color: '#F687B3' },
-  { key: 'LGBTQ+',   icon: '🌈', color: '#A78BFA' },
-  { key: '病友支持',  icon: '💝', color: '#FCA5A5' },
-  { key: '法律政策',  icon: '⚖️', color: '#5B6EC7' },
-  { key: '知識庫',    icon: '📚', color: '#10B981' },
+  { key: '菁英女性',  iconName: 'briefcase',   color: '#F687B3' },
+  { key: 'LGBTQ+',   iconName: 'heartPulse',  color: '#A78BFA' },
+  { key: '病友支持',  iconName: 'doctor',      color: '#FCA5A5' },
+  { key: '法律政策',  iconName: 'shield',      color: '#5B6EC7' },
+  { key: '知識庫',    iconName: 'flask',       color: '#10B981' },
 ];
 
 const EDU_CARDS = [
@@ -427,7 +428,10 @@ export default function Community() {
 
   return (
     <div style={styles.page}>
-      <div style={styles.pageTitle}>💬 用戶互動與支持社群</div>
+      <div style={styles.pageTitle}>
+        <Icon name="message" size={26} color="#1A365D" />
+        用戶互動與支持社群
+      </div>
       <div style={styles.pageSub}>專為凍卵族群打造的安心交流空間，分享經驗、獲取知識、爭取權益。</div>
 
       {/* Tab 導覽 */}
@@ -436,7 +440,7 @@ export default function Community() {
           <button key={tab.key}
             style={styles.tab(activeTab === tab.key, tab.color)}
             onClick={() => setActiveTab(tab.key)}>
-            <span>{tab.icon}</span>
+            <Icon name={tab.iconName} size={14} color={activeTab === tab.key ? '#FFFFFF' : tab.color} />
             <span>{tab.key}</span>
           </button>
         ))}
@@ -525,7 +529,8 @@ export default function Community() {
         onClick={() => setQuestionOpen(true)}
         onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
         onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}>
-        💬 我要提問
+        <Icon name="message" size={18} color="#FFFFFF" />
+        我要提問
       </button>
 
       {/* AI 諮詢 Modal */}

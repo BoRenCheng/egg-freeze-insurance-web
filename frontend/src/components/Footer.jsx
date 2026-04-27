@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { colors } from '../theme';
 import useViewport from './shared/useViewport';
+import Icon from './shared/Icon';
 
 const styles = {
   footer: {
@@ -103,10 +104,10 @@ const styles = {
 };
 
 const SOCIALS = [
-  { icon: '📘', label: 'Facebook', href: '#' },
-  { icon: '📷', label: 'Instagram', href: '#' },
-  { icon: '✉️', label: 'Email', href: 'mailto:contact@egg-freeze.tw' },
-  { icon: '💬', label: 'Line', href: '#' },
+  { iconName: 'facebook',  label: 'Facebook',  href: '#' },
+  { iconName: 'instagram', label: 'Instagram', href: '#' },
+  { iconName: 'line',      label: 'Line',      href: '#' },
+  { iconName: 'mail',      label: 'Email',     href: 'mailto:contact@egg-freeze.tw' },
 ];
 
 export default function Footer() {
@@ -135,13 +136,13 @@ export default function Footer() {
                 <a key={s.label} href={s.href} title={s.label} style={styles.socialBtn}
                   onMouseEnter={e => {
                     e.currentTarget.style.background = colors.brandPink;
-                    e.currentTarget.style.color = '#FFFFFF';
+                    e.currentTarget.style.borderColor = colors.brandPink;
                   }}
                   onMouseLeave={e => {
                     e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
-                    e.currentTarget.style.color = '#CBD5E1';
+                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)';
                   }}>
-                  {s.icon}
+                  <Icon name={s.iconName} size={16} color="#FFFFFF" />
                 </a>
               ))}
             </div>
@@ -185,21 +186,21 @@ export default function Footer() {
             <div style={styles.colTitle}>聯絡資訊</div>
             <div style={styles.linkList}>
               <div style={styles.contactRow}>
-                <span style={styles.contactIcon}>📍</span>
+                <Icon name="mapPin" size={16} color="#94A3B8" style={styles.contactIcon} />
                 <span>台北市信義區<br />信義路五段 7 號</span>
               </div>
               <div style={styles.contactRow}>
-                <span style={styles.contactIcon}>📞</span>
+                <Icon name="phone" size={16} color="#94A3B8" style={styles.contactIcon} />
                 <span>0800-123-456</span>
               </div>
               <div style={styles.contactRow}>
-                <span style={styles.contactIcon}>✉️</span>
+                <Icon name="mail" size={16} color="#94A3B8" style={styles.contactIcon} />
                 <a href="mailto:contact@egg-freeze.tw" style={{ color: 'inherit', textDecoration: 'none' }}>
                   contact@egg-freeze.tw
                 </a>
               </div>
               <div style={styles.contactRow}>
-                <span style={styles.contactIcon}>🕒</span>
+                <Icon name="clock" size={16} color="#94A3B8" style={styles.contactIcon} />
                 <span>週一至週五 09:00 - 18:00</span>
               </div>
             </div>

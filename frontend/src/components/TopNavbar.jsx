@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { colors, shadows } from '../theme';
 import useViewport from './shared/useViewport';
+import Icon from './shared/Icon';
 
 const NAV_ITEMS = [
   { to: '/dashboard',  label: '首頁' },
@@ -243,7 +244,9 @@ export default function TopNavbar() {
       <nav style={styles.navbar(scrolled)}>
         <div style={styles.container(isMobile)}>
           <div style={styles.brandRow} onClick={() => navigate('/dashboard')}>
-            <div style={styles.brandIcon}>🥚</div>
+            <div style={styles.brandIcon}>
+              <Icon name="egg" size={20} color="#FFFFFF" fill="#FFFFFF" />
+            </div>
             <div style={styles.brandText}>
               <div style={styles.brandTitle}>凍住希望 卵畫未來</div>
               <div style={styles.brandSub}>孕（運）轉乾坤險</div>
@@ -275,7 +278,7 @@ export default function TopNavbar() {
             )}
             {isMobile && (
               <button style={styles.hamburger} onClick={() => setDrawerOpen(true)} aria-label="開啟選單">
-                ☰
+                <Icon name="menu" size={20} color={colors.brandNavy} />
               </button>
             )}
           </div>
@@ -289,12 +292,16 @@ export default function TopNavbar() {
           <aside style={styles.drawer}>
             <div style={styles.drawerHeader}>
               <div style={styles.brandRow}>
-                <div style={styles.brandIcon}>🥚</div>
+                <div style={styles.brandIcon}>
+              <Icon name="egg" size={20} color="#FFFFFF" fill="#FFFFFF" />
+            </div>
                 <div style={styles.brandText}>
                   <div style={styles.brandTitle}>凍住希望 卵畫未來</div>
                 </div>
               </div>
-              <button style={styles.drawerCloseBtn} onClick={() => setDrawerOpen(false)}>✕</button>
+              <button style={styles.drawerCloseBtn} onClick={() => setDrawerOpen(false)}>
+                <Icon name="close" size={22} color={colors.textMuted} />
+              </button>
             </div>
 
             <nav style={styles.drawerNav}>
