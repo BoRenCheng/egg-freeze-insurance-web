@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import Icon from '../components/shared/Icon';
 
 const styles = {
   page: {
@@ -340,10 +341,10 @@ const styles = {
 };
 
 const CUSTOMER_TYPES = [
-  { value: 'potential', icon: '✨', title: '潛在客群', desc: '25-30歲，探索凍卵可能性' },
-  { value: 'main', icon: '👑', title: '主要客群', desc: '30歲以上菁英女性/同性伴侶' },
-  { value: 'high_demand', icon: '⚡', title: '高需求客群', desc: '40歲以上/卵巢功能衰退' },
-  { value: 'cancer', icon: '🏥', title: '重大疾病患者', desc: '癌症等疾病需緊急保存' },
+  { value: 'potential',  iconName: 'sparkles',   title: '潛在客群',     desc: '25-30 歲，探索凍卵可能性' },
+  { value: 'main',       iconName: 'briefcase',  title: '主要客群',     desc: '30+ 菁英女性 / 同性伴侶' },
+  { value: 'high_demand',iconName: 'trending',   title: '高需求客群',   desc: '40+ / 卵巢功能衰退' },
+  { value: 'cancer',     iconName: 'heartPulse', title: '重大疾病患者', desc: '癌症等疾病需緊急保存' },
 ];
 
 export default function RegisterPage() {
@@ -429,7 +430,10 @@ export default function RegisterPage() {
 
       <div style={styles.card}>
         <div style={styles.header}>
-          <div style={styles.brandBadge}>🥚 孕（運）轉乾坤險</div>
+          <div style={styles.brandBadge}>
+            <Icon name="egg" size={14} color="#FFFFFF" fill="#FFFFFF" />
+            孕（運）轉乾坤險
+          </div>
           <div style={styles.title}>建立您的帳號</div>
           <div style={styles.subtitle}>加入我們，開始管理您的凍卵保險</div>
         </div>
@@ -468,7 +472,9 @@ export default function RegisterPage() {
 
         {alert && (
           <div style={{ ...styles.alertBox, ...(alert.type === 'error' ? styles.alertError : styles.alertSuccess), marginBottom: 16 }}>
-            {alert.type === 'error' ? '⚠️' : '✅'} {alert.msg}
+            <Icon name={alert.type === 'error' ? 'alertTriangle' : 'checkCircle'} size={16}
+                  color={alert.type === 'error' ? '#DC2626' : '#065F46'} />
+            {alert.msg}
           </div>
         )}
 
@@ -481,7 +487,7 @@ export default function RegisterPage() {
                 <div style={styles.fieldGroup}>
                   <label style={styles.label}>姓名</label>
                   <div style={styles.inputWrapper}>
-                    <span style={styles.inputIcon}>👤</span>
+                    <span style={styles.inputIcon}><Icon name="user" size={16} color="#9CA3AF" /></span>
                     <input type="text" placeholder="請輸入真實姓名"
                       value={form.name}
                       onChange={e => setForm({ ...form, name: e.target.value })}
@@ -489,12 +495,12 @@ export default function RegisterPage() {
                       onBlur={() => setFocusField(null)}
                       style={getInputStyle('name')} />
                   </div>
-                  {errors.name && <div style={styles.errorMsg}>⚠ {errors.name}</div>}
+                  {errors.name && <div style={styles.errorMsg}><Icon name="alertCircle" size={12} color="#EF4444" /> {errors.name}</div>}
                 </div>
                 <div style={styles.fieldGroup}>
                   <label style={styles.label}>電子信箱</label>
                   <div style={styles.inputWrapper}>
-                    <span style={styles.inputIcon}>📧</span>
+                    <span style={styles.inputIcon}><Icon name="mail" size={16} color="#9CA3AF" /></span>
                     <input type="email" placeholder="example@email.com"
                       value={form.email}
                       onChange={e => setForm({ ...form, email: e.target.value })}
@@ -502,14 +508,14 @@ export default function RegisterPage() {
                       onBlur={() => setFocusField(null)}
                       style={getInputStyle('email')} />
                   </div>
-                  {errors.email && <div style={styles.errorMsg}>⚠ {errors.email}</div>}
+                  {errors.email && <div style={styles.errorMsg}><Icon name="alertCircle" size={12} color="#EF4444" /> {errors.email}</div>}
                 </div>
               </div>
               <div style={styles.row}>
                 <div style={styles.fieldGroup}>
                   <label style={styles.label}>密碼</label>
                   <div style={styles.inputWrapper}>
-                    <span style={styles.inputIcon}>🔒</span>
+                    <span style={styles.inputIcon}><Icon name="lock" size={16} color="#9CA3AF" /></span>
                     <input type={showPwd ? 'text' : 'password'} placeholder="至少 6 個字元"
                       value={form.password}
                       onChange={e => setForm({ ...form, password: e.target.value })}
@@ -517,15 +523,15 @@ export default function RegisterPage() {
                       onBlur={() => setFocusField(null)}
                       style={getInputStyle('password')} />
                     <button type="button" style={styles.togglePassword} onClick={() => setShowPwd(!showPwd)}>
-                      {showPwd ? '🙈' : '👁️'}
+                      <Icon name={showPwd ? 'eyeOff' : 'eye'} size={16} color="#9CA3AF" />
                     </button>
                   </div>
-                  {errors.password && <div style={styles.errorMsg}>⚠ {errors.password}</div>}
+                  {errors.password && <div style={styles.errorMsg}><Icon name="alertCircle" size={12} color="#EF4444" /> {errors.password}</div>}
                 </div>
                 <div style={styles.fieldGroup}>
                   <label style={styles.label}>確認密碼</label>
                   <div style={styles.inputWrapper}>
-                    <span style={styles.inputIcon}>🔐</span>
+                    <span style={styles.inputIcon}><Icon name="lock" size={16} color="#9CA3AF" /></span>
                     <input type={showConfirmPwd ? 'text' : 'password'} placeholder="再次輸入密碼"
                       value={form.confirmPassword}
                       onChange={e => setForm({ ...form, confirmPassword: e.target.value })}
@@ -533,15 +539,16 @@ export default function RegisterPage() {
                       onBlur={() => setFocusField(null)}
                       style={getInputStyle('confirmPassword')} />
                     <button type="button" style={styles.togglePassword} onClick={() => setShowConfirmPwd(!showConfirmPwd)}>
-                      {showConfirmPwd ? '🙈' : '👁️'}
+                      <Icon name={showConfirmPwd ? 'eyeOff' : 'eye'} size={16} color="#9CA3AF" />
                     </button>
                   </div>
-                  {errors.confirmPassword && <div style={styles.errorMsg}>⚠ {errors.confirmPassword}</div>}
+                  {errors.confirmPassword && <div style={styles.errorMsg}><Icon name="alertCircle" size={12} color="#EF4444" /> {errors.confirmPassword}</div>}
                 </div>
               </div>
               <div style={styles.btnGroup}>
-                <button type="button" style={{ ...styles.nextBtn, flex: 1 }} onClick={handleNext}>
-                  下一步：健康資料 →
+                <button type="button" style={{ ...styles.nextBtn, flex: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8 }} onClick={handleNext}>
+                  下一步：健康資料
+                  <Icon name="arrowRight" size={16} color="#FFFFFF" />
                 </button>
               </div>
             </>
@@ -555,7 +562,7 @@ export default function RegisterPage() {
                 <div style={styles.fieldGroup}>
                   <label style={styles.label}>年齡</label>
                   <div style={styles.inputWrapper}>
-                    <span style={styles.inputIcon}>🎂</span>
+                    <span style={styles.inputIcon}><Icon name="calendar" size={16} color="#9CA3AF" /></span>
                     <input type="number" placeholder="25-60 歲" min={25} max={60}
                       value={form.age}
                       onChange={e => setForm({ ...form, age: e.target.value })}
@@ -563,7 +570,7 @@ export default function RegisterPage() {
                       onBlur={() => setFocusField(null)}
                       style={getInputStyle('age')} />
                   </div>
-                  {errors.age && <div style={styles.errorMsg}>⚠ {errors.age}</div>}
+                  {errors.age && <div style={styles.errorMsg}><Icon name="alertCircle" size={12} color="#EF4444" /> {errors.age}</div>}
                 </div>
                 <div style={styles.fieldGroup}>
                   <label style={styles.label}>
@@ -571,7 +578,7 @@ export default function RegisterPage() {
                     <span style={styles.labelOptional}>選填</span>
                   </label>
                   <div style={styles.inputWrapper}>
-                    <span style={styles.inputIcon}>🧪</span>
+                    <span style={styles.inputIcon}><Icon name="flask" size={16} color="#9CA3AF" /></span>
                     <input type="number" placeholder="例：3.5" step="0.1" min={0}
                       value={form.amh_value}
                       onChange={e => setForm({ ...form, amh_value: e.target.value })}
@@ -585,28 +592,46 @@ export default function RegisterPage() {
               <div style={styles.fieldGroup}>
                 <label style={styles.label}>客群類型（影響保費方案）</label>
                 <div style={styles.customerTypeGrid}>
-                  {CUSTOMER_TYPES.map(ct => (
-                    <div key={ct.value}
-                      style={{ ...styles.typeCard, ...(form.customer_type === ct.value ? styles.typeCardActive : {}) }}
-                      onClick={() => setForm({ ...form, customer_type: ct.value })}>
-                      <div style={styles.typeCardIcon}>{ct.icon}</div>
-                      <div style={styles.typeCardTitle}>{ct.title}</div>
-                      <div style={styles.typeCardDesc}>{ct.desc}</div>
-                    </div>
-                  ))}
+                  {CUSTOMER_TYPES.map(ct => {
+                    const active = form.customer_type === ct.value;
+                    return (
+                      <div key={ct.value}
+                        style={{ ...styles.typeCard, ...(active ? styles.typeCardActive : {}) }}
+                        onClick={() => setForm({ ...form, customer_type: ct.value })}>
+                        <div style={{
+                          width: 40, height: 40, borderRadius: 10,
+                          background: active ? 'rgba(91,110,199,0.15)' : '#FFFFFF',
+                          border: `1px solid ${active ? '#5B6EC7' : '#E5E7EB'}`,
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          margin: '0 auto 8px',
+                        }}>
+                          <Icon name={ct.iconName} size={20} color={active ? '#5B6EC7' : '#6B7280'} />
+                        </div>
+                        <div style={styles.typeCardTitle}>{ct.title}</div>
+                        <div style={styles.typeCardDesc}>{ct.desc}</div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
               <label style={styles.checkboxRow} onClick={() => setForm({ ...form, has_major_illness: !form.has_major_illness })}>
                 <input type="checkbox" checked={form.has_major_illness} onChange={() => {}} style={styles.checkbox} />
-                <span style={styles.checkboxLabel}>
-                  ⚠️ 本人有重大疾病史（癌症、POF、快速卵巢衰退等），需適用重大疾病保費方案
+                <span style={{ ...styles.checkboxLabel, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                  <Icon name="alertTriangle" size={14} color="#92400E" />
+                  本人有重大疾病史（癌症、POF、快速卵巢衰退等），需適用重大疾病保費方案
                 </span>
               </label>
 
               <div style={styles.btnGroup}>
-                <button type="button" style={styles.backBtn} onClick={() => setStep(1)}>← 返回</button>
-                <button type="button" style={styles.nextBtn} onClick={handleNext}>下一步：確認 →</button>
+                <button type="button" style={{ ...styles.backBtn, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6 }} onClick={() => setStep(1)}>
+                  <Icon name="arrowRight" size={14} color="#5B6EC7" style={{ transform: 'rotate(180deg)' }} />
+                  返回
+                </button>
+                <button type="button" style={{ ...styles.nextBtn, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8 }} onClick={handleNext}>
+                  下一步：確認
+                  <Icon name="arrowRight" size={16} color="#FFFFFF" />
+                </button>
               </div>
             </>
           )}
@@ -620,24 +645,39 @@ export default function RegisterPage() {
                 border: '1px solid #C7D2F6', display: 'flex', flexDirection: 'column', gap: 12
               }}>
                 {[
-                  { label: '姓名', value: form.name, icon: '👤' },
-                  { label: 'Email', value: form.email, icon: '📧' },
-                  { label: '年齡', value: `${form.age} 歲`, icon: '🎂' },
-                  { label: '客群類型', value: CUSTOMER_TYPES.find(c => c.value === form.customer_type)?.title, icon: '🏷️' },
-                  { label: 'AMH 值', value: form.amh_value ? `${form.amh_value} ng/mL` : '未填寫', icon: '🧪' },
-                  { label: '重大疾病', value: form.has_major_illness ? '是（適用重大疾病方案）' : '否', icon: '⚕️' },
+                  { label: '姓名',     value: form.name,                                                                       iconName: 'user' },
+                  { label: 'Email',    value: form.email,                                                                      iconName: 'mail' },
+                  { label: '年齡',     value: `${form.age} 歲`,                                                                iconName: 'calendar' },
+                  { label: '客群類型', value: CUSTOMER_TYPES.find(c => c.value === form.customer_type)?.title,                 iconName: 'users' },
+                  { label: 'AMH 值',   value: form.amh_value ? `${form.amh_value} ng/mL` : '未填寫',                            iconName: 'flask' },
+                  { label: '重大疾病', value: form.has_major_illness ? '是（適用重大疾病方案）' : '否',                          iconName: 'heartPulse' },
                 ].map((item, i) => (
                   <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: 13, color: '#6B7280' }}>{item.icon} {item.label}</span>
+                    <span style={{ fontSize: 13, color: '#6B7280', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                      <Icon name={item.iconName} size={14} color="#9CA3AF" />
+                      {item.label}
+                    </span>
                     <span style={{ fontSize: 14, fontWeight: 600, color: '#1E3A6E' }}>{item.value}</span>
                   </div>
                 ))}
               </div>
               <div style={styles.btnGroup}>
-                <button type="button" style={styles.backBtn} onClick={() => setStep(2)}>← 修改</button>
-                <button type="submit" style={{ ...styles.nextBtn, ...(loading ? { opacity: 0.7, cursor: 'not-allowed' } : {}) }} disabled={loading}>
-                  {loading && <span style={styles.loadingSpinner} />}
-                  {loading ? '建立帳號中...' : '✓ 完成註冊'}
+                <button type="button" style={{ ...styles.backBtn, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6 }} onClick={() => setStep(2)}>
+                  <Icon name="arrowRight" size={14} color="#5B6EC7" style={{ transform: 'rotate(180deg)' }} />
+                  修改
+                </button>
+                <button type="submit" style={{ ...styles.nextBtn, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, ...(loading ? { opacity: 0.7, cursor: 'not-allowed' } : {}) }} disabled={loading}>
+                  {loading ? (
+                    <>
+                      <span style={styles.loadingSpinner} />
+                      建立帳號中
+                    </>
+                  ) : (
+                    <>
+                      <Icon name="check" size={16} color="#FFFFFF" strokeWidth={2.5} />
+                      完成註冊
+                    </>
+                  )}
                 </button>
               </div>
             </>
@@ -645,7 +685,10 @@ export default function RegisterPage() {
 
           <div style={styles.loginRow}>
             已有帳號？
-            <Link to="/login"><span style={styles.loginLink}>立即登入 →</span></Link>
+            <Link to="/login" style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+              <span style={styles.loginLink}>立即登入</span>
+              <Icon name="arrowRight" size={12} color="#F5A623" />
+            </Link>
           </div>
         </form>
       </div>

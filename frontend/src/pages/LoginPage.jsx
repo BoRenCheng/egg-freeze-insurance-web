@@ -1,299 +1,25 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import { colors, shadows } from '../theme';
 import useViewport from '../components/shared/useViewport';
+import Icon from '../components/shared/Icon';
 
-const styles = {
-  page: {
-    minHeight: '100vh',
-    display: 'flex',
-    background: 'linear-gradient(135deg, #1E3A6E 0%, #5B6EC7 50%, #8A99D6 100%)',
-    position: 'relative',
-    overflow: 'hidden',
-  },
-  decorCircle1: {
-    position: 'absolute',
-    width: 400,
-    height: 400,
-    borderRadius: '50%',
-    background: 'rgba(255,255,255,0.05)',
-    top: -100,
-    right: -100,
-  },
-  decorCircle2: {
-    position: 'absolute',
-    width: 250,
-    height: 250,
-    borderRadius: '50%',
-    background: 'rgba(245,166,35,0.15)',
-    bottom: 50,
-    left: -80,
-  },
-  decorCircle3: {
-    position: 'absolute',
-    width: 150,
-    height: 150,
-    borderRadius: '50%',
-    background: 'rgba(255,255,255,0.08)',
-    bottom: 200,
-    right: 80,
-  },
-  leftPanel: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '60px 40px',
-    position: 'relative',
-    zIndex: 1,
-  },
-  brandIcon: {
-    width: 90,
-    height: 90,
-    borderRadius: '50%',
-    background: 'linear-gradient(135deg, #F5A623, #FFD580)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: 42,
-    marginBottom: 24,
-    boxShadow: '0 8px 32px rgba(245,166,35,0.4)',
-  },
-  brandTitle: {
-    fontSize: 32,
-    fontWeight: 900,
-    color: '#FFFFFF',
-    textAlign: 'center',
-    lineHeight: 1.3,
-    marginBottom: 8,
-    letterSpacing: 2,
-  },
-  brandHighlight: {
-    color: '#F5A623',
-  },
-  brandSubtitle: {
-    fontSize: 16,
-    fontWeight: 500,
-    color: 'rgba(255,255,255,0.8)',
-    textAlign: 'center',
-    marginBottom: 40,
-    letterSpacing: 3,
-  },
-  featureList: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 16,
-    width: '100%',
-    maxWidth: 320,
-  },
-  featureItem: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 12,
-    background: 'rgba(255,255,255,0.1)',
-    borderRadius: 12,
-    padding: '12px 16px',
-    backdropFilter: 'blur(10px)',
-  },
-  featureIcon: {
-    fontSize: 20,
-    width: 36,
-    height: 36,
-    borderRadius: '50%',
-    background: 'rgba(245,166,35,0.3)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexShrink: 0,
-  },
-  featureText: {
-    fontSize: 14,
-    color: 'rgba(255,255,255,0.9)',
-    fontWeight: 500,
-  },
-  rightPanel: {
-    width: 480,
-    background: '#FFFFFF',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    padding: '60px 48px',
-    position: 'relative',
-    zIndex: 1,
-    boxShadow: '-20px 0 60px rgba(0,0,0,0.2)',
-  },
-  formHeader: {
-    marginBottom: 32,
-  },
-  formTitle: {
-    fontSize: 28,
-    fontWeight: 800,
-    color: '#1E3A6E',
-    marginBottom: 8,
-  },
-  formSubtitle: {
-    fontSize: 14,
-    color: '#6B7280',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 20,
-  },
-  fieldGroup: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 6,
-  },
-  label: {
-    fontSize: 13,
-    fontWeight: 600,
-    color: '#1E3A6E',
-    letterSpacing: 0.5,
-  },
-  inputWrapper: {
-    position: 'relative',
-    display: 'flex',
-    alignItems: 'center',
-  },
-  inputIcon: {
-    position: 'absolute',
-    left: 14,
-    fontSize: 18,
-    color: '#9CA3AF',
-    pointerEvents: 'none',
-  },
-  input: {
-    width: '100%',
-    padding: '12px 16px 12px 44px',
-    fontSize: 15,
-    border: '2px solid #E5E7EB',
-    borderRadius: 10,
-    outline: 'none',
-    transition: 'border-color 0.2s, box-shadow 0.2s',
-    color: '#1E3A6E',
-    background: '#F9FAFB',
-    fontFamily: 'inherit',
-  },
-  inputFocus: {
-    borderColor: '#5B6EC7',
-    boxShadow: '0 0 0 3px rgba(91,110,199,0.15)',
-    background: '#FFFFFF',
-  },
-  inputError: {
-    borderColor: '#EF4444',
-    boxShadow: '0 0 0 3px rgba(239,68,68,0.1)',
-  },
-  togglePassword: {
-    position: 'absolute',
-    right: 14,
-    background: 'none',
-    border: 'none',
-    cursor: 'pointer',
-    fontSize: 18,
-    color: '#9CA3AF',
-    padding: 4,
-    lineHeight: 1,
-  },
-  errorMsg: {
-    fontSize: 12,
-    color: '#EF4444',
-    marginTop: 4,
-    display: 'flex',
-    alignItems: 'center',
-    gap: 4,
-  },
-  forgotLink: {
-    textAlign: 'right',
-    marginTop: -12,
-  },
-  forgotText: {
-    fontSize: 13,
-    color: '#5B6EC7',
-    cursor: 'pointer',
-    fontWeight: 500,
-  },
-  alertBox: {
-    padding: '12px 16px',
-    borderRadius: 10,
-    fontSize: 14,
-    fontWeight: 500,
-    display: 'flex',
-    alignItems: 'center',
-    gap: 8,
-  },
-  alertError: {
-    background: '#FEE2E2',
-    color: '#DC2626',
-    border: '1px solid #FECACA',
-  },
-  alertSuccess: {
-    background: '#D1FAE5',
-    color: '#065F46',
-    border: '1px solid #A7F3D0',
-  },
-  submitBtn: {
-    padding: '14px',
-    fontSize: 16,
-    fontWeight: 700,
-    color: '#FFFFFF',
-    background: 'linear-gradient(135deg, #5B6EC7, #1E3A6E)',
-    border: 'none',
-    borderRadius: 10,
-    cursor: 'pointer',
-    transition: 'transform 0.1s, box-shadow 0.2s',
-    letterSpacing: 1,
-    boxShadow: '0 4px 15px rgba(91,110,199,0.4)',
-    fontFamily: 'inherit',
-    marginTop: 4,
-  },
-  submitBtnLoading: {
-    opacity: 0.7,
-    cursor: 'not-allowed',
-  },
-  divider: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 12,
-    margin: '4px 0',
-  },
-  dividerLine: {
-    flex: 1,
-    height: 1,
-    background: '#E5E7EB',
-  },
-  dividerText: {
-    fontSize: 13,
-    color: '#9CA3AF',
-    fontWeight: 500,
-  },
-  registerRow: {
-    textAlign: 'center',
-    fontSize: 14,
-    color: '#6B7280',
-  },
-  registerLink: {
-    color: '#F5A623',
-    fontWeight: 700,
-    cursor: 'pointer',
-    marginLeft: 4,
-  },
-  loadingSpinner: {
-    display: 'inline-block',
-    width: 18,
-    height: 18,
-    border: '3px solid rgba(255,255,255,0.3)',
-    borderTopColor: '#FFFFFF',
-    borderRadius: '50%',
-    animation: 'spin 0.8s linear infinite',
-    marginRight: 8,
-    verticalAlign: 'middle',
-  },
-};
+const FEATURES = [
+  { iconName: 'shield',     title: '完整凍卵全流程保障', desc: '療程補助、手術併發症、保存不當補償' },
+  { iconName: 'chart',      title: '個人化保費試算',     desc: '依年齡、AMH、客群分級動態計價' },
+  { iconName: 'hospital',   title: '中西醫合作生態系',   desc: '12+ 合作診所、APP 預約獨家折扣' },
+  { iconName: 'sparkles',   title: 'AI 智能諮詢顧問',    desc: '24/7 卵卵助理，由 Gemini 提供' },
+];
+
+const TRUST_BADGES = [
+  { value: '4', label: '客群分級' },
+  { value: '5 年', label: '保險年限' },
+  { value: '佳作', label: '巴黎人壽競賽' },
+];
 
 export default function LoginPage() {
-  const { isMobile } = useViewport();
+  const { isMobile, isTablet } = useViewport();
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({});
@@ -321,8 +47,8 @@ export default function LoginPage() {
       const res = await axios.post('/api/login', form);
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user', JSON.stringify(res.data.user));
-      setAlert({ type: 'success', msg: `歡迎回來，${res.data.user.name}！` });
-      setTimeout(() => navigate('/dashboard'), 1000);
+      setAlert({ type: 'success', msg: `歡迎回來，${res.data.user.name}` });
+      setTimeout(() => navigate('/dashboard'), 800);
     } catch (err) {
       setAlert({ type: 'error', msg: err.response?.data?.message || '登入失敗，請稍後再試' });
     } finally {
@@ -330,137 +56,434 @@ export default function LoginPage() {
     }
   }
 
-  function getInputStyle(field) {
-    const base = { ...styles.input };
-    if (focusField === field) Object.assign(base, styles.inputFocus);
-    if (errors[field]) Object.assign(base, styles.inputError);
-    return base;
-  }
+  // ── styles ──
+  const isStacked = isMobile || isTablet;
+  const containerStyle = {
+    minHeight: '100vh',
+    background: colors.bgWhite,
+    display: 'grid',
+    gridTemplateColumns: isStacked ? '1fr' : '1.1fr 1fr',
+  };
+
+  const heroStyle = {
+    background: `linear-gradient(140deg, ${colors.brandNavyDark} 0%, ${colors.brandNavy} 60%, #2C4F7C 100%)`,
+    color: '#FFFFFF',
+    padding: isMobile ? '40px 24px 56px' : '64px 56px',
+    position: 'relative',
+    overflow: 'hidden',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  };
+
+  const formAreaStyle = {
+    background: colors.bgWhite,
+    padding: isMobile ? '40px 24px 64px' : '64px 56px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  };
+
+  const formCardStyle = {
+    width: '100%',
+    maxWidth: 420,
+  };
+
+  const inputStyle = (field) => ({
+    width: '100%',
+    padding: '13px 16px 13px 46px',
+    fontSize: 14,
+    border: `1.5px solid ${
+      errors[field] ? colors.danger :
+      focusField === field ? colors.brandPink : colors.borderLight
+    }`,
+    borderRadius: 10,
+    outline: 'none',
+    color: colors.textPrimary,
+    background: focusField === field ? colors.bgWhite : colors.bgSoft,
+    transition: 'all 0.15s',
+    boxShadow: focusField === field ? `0 0 0 4px ${colors.brandPinkBg}` : 'none',
+    fontFamily: 'inherit',
+  });
 
   return (
-    <div style={{ ...styles.page, flexDirection: isMobile ? 'column' : 'row' }}>
-      <style>{`
-        @keyframes spin { to { transform: rotate(360deg); } }
-        button:not(:disabled):hover { filter: brightness(1.05); }
-        .submit-btn:not(:disabled):active { transform: scale(0.98); }
-      `}</style>
+    <div style={containerStyle}>
+      {/* === 左側：品牌 Hero === */}
+      <section style={heroStyle}>
+        {/* 背景裝飾紋理 */}
+        <div style={{
+          position: 'absolute',
+          top: -100, right: -100,
+          width: 360, height: 360,
+          borderRadius: '50%',
+          background: `radial-gradient(circle, ${colors.brandPink}22 0%, transparent 70%)`,
+          pointerEvents: 'none',
+        }} />
+        <div style={{
+          position: 'absolute',
+          bottom: -80, left: -60,
+          width: 280, height: 280,
+          borderRadius: '50%',
+          background: `radial-gradient(circle, ${colors.brandGold}1A 0%, transparent 70%)`,
+          pointerEvents: 'none',
+        }} />
 
-      {/* 裝飾圓圈 */}
-      <div style={styles.decorCircle1} />
-      <div style={styles.decorCircle2} />
-      <div style={styles.decorCircle3} />
+        {/* 上半：品牌與標題 */}
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 10,
+            background: 'rgba(255,255,255,0.1)',
+            border: '1px solid rgba(255,255,255,0.18)',
+            padding: '6px 14px',
+            borderRadius: 999,
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+            marginBottom: 28,
+            fontSize: 11,
+            fontWeight: 700,
+            letterSpacing: 1.5,
+          }}>
+            <Icon name="award" size={14} color={colors.brandGold} />
+            <span style={{ color: '#E5E7EB' }}>FRANCE PRÉVOYANCE × 創新競賽佳作</span>
+          </div>
 
-      {/* 左側品牌區 */}
-      <div style={styles.leftPanel}>
-        <div style={styles.brandIcon}>🥚</div>
-        <div style={styles.brandTitle}>
-          <span style={styles.brandHighlight}>凍</span>住希望{' '}
-          <span style={styles.brandHighlight}>卵</span>畫未來
-        </div>
-        <div style={styles.brandSubtitle}>孕（運）轉乾坤險</div>
-
-        <div style={styles.featureList}>
-          {[
-            { icon: '🛡️', text: '凍卵療程全程保障，安心無憂' },
-            { icon: '📊', text: '個人化 AMH 分析，精準保費試算' },
-            { icon: '🏥', text: '中西醫三方合作生態系' },
-            { icon: '💛', text: '涵蓋高齡、癌症、LGBTQ+ 客群' },
-          ].map((f, i) => (
-            <div key={i} style={styles.featureItem}>
-              <div style={styles.featureIcon}>{f.icon}</div>
-              <span style={styles.featureText}>{f.text}</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 24 }}>
+            <div style={{
+              width: 48, height: 48,
+              borderRadius: '50%',
+              background: `linear-gradient(135deg, ${colors.brandPink}, ${colors.brandGold})`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 8px 20px rgba(246,135,179,0.35)',
+            }}>
+              <Icon name="egg" size={24} color="#FFFFFF" fill="#FFFFFF" />
             </div>
-          ))}
-        </div>
-      </div>
+            <div>
+              <div style={{ fontSize: 13, opacity: 0.7, letterSpacing: 1.5 }}>EGG FREEZE INSURANCE</div>
+              <div style={{ fontSize: 13, opacity: 0.7, letterSpacing: 1 }}>孕（運）轉乾坤險</div>
+            </div>
+          </div>
 
-      {/* 右側登入表單 */}
-      <div style={{ ...styles.rightPanel, width: isMobile ? '100%' : 480, padding: isMobile ? '40px 24px' : '60px 48px' }}>
-        <div style={styles.formHeader}>
-          <div style={styles.formTitle}>歡迎回來</div>
-          <div style={styles.formSubtitle}>請登入您的帳號以繼續使用服務</div>
-        </div>
+          <h1 style={{
+            fontSize: isMobile ? 32 : 44,
+            fontWeight: 900,
+            lineHeight: 1.2,
+            letterSpacing: -0.5,
+            marginBottom: 16,
+          }}>
+            凍住希望
+            <br />
+            <span style={{ color: colors.brandPink }}>卵畫未來</span>
+          </h1>
 
-        <form onSubmit={handleSubmit} style={styles.form} noValidate>
-          {alert && (
-            <div style={{ ...styles.alertBox, ...(alert.type === 'error' ? styles.alertError : styles.alertSuccess) }}>
-              {alert.type === 'error' ? '⚠️' : '✅'} {alert.msg}
+          <p style={{
+            fontSize: 15,
+            color: '#CBD5E1',
+            lineHeight: 1.7,
+            maxWidth: 440,
+            marginBottom: isMobile ? 32 : 48,
+          }}>
+            整合保險、生殖醫學、AI 諮詢的 Insurtech 生態系。
+            專為菁英女性、LGBTQ+ 同性伴侶與癌症病友打造的凍卵保險平台。
+          </p>
+
+          {/* 功能列表 */}
+          {!isMobile && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              {FEATURES.map(f => (
+                <div key={f.title} style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: 14,
+                }}>
+                  <div style={{
+                    width: 36, height: 36,
+                    borderRadius: 10,
+                    background: 'rgba(246,135,179,0.15)',
+                    border: '1px solid rgba(246,135,179,0.3)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                  }}>
+                    <Icon name={f.iconName} size={18} color={colors.brandPink} />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: '#FFFFFF', marginBottom: 2 }}>
+                      {f.title}
+                    </div>
+                    <div style={{ fontSize: 12, color: '#94A3B8', lineHeight: 1.5 }}>
+                      {f.desc}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           )}
+        </div>
 
-          {/* Email */}
-          <div style={styles.fieldGroup}>
-            <label style={styles.label}>電子信箱</label>
-            <div style={styles.inputWrapper}>
-              <span style={styles.inputIcon}>📧</span>
-              <input
-                type="email"
-                placeholder="請輸入您的 Email"
-                value={form.email}
-                onChange={e => setForm({ ...form, email: e.target.value })}
-                onFocus={() => setFocusField('email')}
-                onBlur={() => setFocusField(null)}
-                style={getInputStyle('email')}
-                autoComplete="email"
-              />
+        {/* 下半：信任徽章 */}
+        {!isMobile && (
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: 12,
+            paddingTop: 32,
+            marginTop: 32,
+            borderTop: '1px solid rgba(255,255,255,0.12)',
+            position: 'relative',
+            zIndex: 1,
+          }}>
+            {TRUST_BADGES.map(b => (
+              <div key={b.label}>
+                <div style={{ fontSize: 24, fontWeight: 900, color: '#FFFFFF', lineHeight: 1.1 }}>
+                  {b.value}
+                </div>
+                <div style={{ fontSize: 11, color: '#94A3B8', marginTop: 4, letterSpacing: 0.5 }}>
+                  {b.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* === 右側：登入表單 === */}
+      <section style={formAreaStyle}>
+        <div style={formCardStyle}>
+          <div style={{
+            fontSize: 11,
+            fontWeight: 800,
+            color: colors.brandPink,
+            letterSpacing: 2,
+            marginBottom: 12,
+          }}>SIGN IN</div>
+
+          <h2 style={{
+            fontSize: 30,
+            fontWeight: 900,
+            color: colors.brandNavy,
+            marginBottom: 8,
+            letterSpacing: -0.5,
+          }}>
+            歡迎回來
+          </h2>
+          <p style={{
+            fontSize: 14,
+            color: colors.textMuted,
+            marginBottom: 32,
+            lineHeight: 1.6,
+          }}>
+            登入以管理您的凍卵保單、查看健康數據、預約合作診所。
+          </p>
+
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 18 }} noValidate>
+            {/* Alert */}
+            {alert && (
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 10,
+                padding: '12px 14px',
+                borderRadius: 10,
+                fontSize: 13,
+                fontWeight: 600,
+                background: alert.type === 'error' ? '#FEF2F2' : '#ECFDF5',
+                color: alert.type === 'error' ? '#B91C1C' : '#047857',
+                border: `1px solid ${alert.type === 'error' ? '#FECACA' : '#A7F3D0'}`,
+              }}>
+                <Icon
+                  name={alert.type === 'error' ? 'alertTriangle' : 'checkCircle'}
+                  size={16}
+                  color={alert.type === 'error' ? '#B91C1C' : '#047857'}
+                />
+                {alert.msg}
+              </div>
+            )}
+
+            {/* Email */}
+            <div>
+              <label style={{ fontSize: 12, fontWeight: 700, color: colors.textSecondary, letterSpacing: 0.5, display: 'block', marginBottom: 6 }}>
+                電子信箱
+              </label>
+              <div style={{ position: 'relative' }}>
+                <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
+                  <Icon name="mail" size={18} color={focusField === 'email' ? colors.brandPink : colors.textPlaceholder} />
+                </span>
+                <input
+                  type="email"
+                  placeholder="you@example.com"
+                  value={form.email}
+                  onChange={e => setForm({ ...form, email: e.target.value })}
+                  onFocus={() => setFocusField('email')}
+                  onBlur={() => setFocusField(null)}
+                  style={inputStyle('email')}
+                  autoComplete="email"
+                />
+              </div>
+              {errors.email && (
+                <div style={{ fontSize: 12, color: colors.danger, marginTop: 6, display: 'flex', alignItems: 'center', gap: 4 }}>
+                  <Icon name="alertCircle" size={12} color={colors.danger} />
+                  {errors.email}
+                </div>
+              )}
             </div>
-            {errors.email && <div style={styles.errorMsg}>⚠ {errors.email}</div>}
-          </div>
 
-          {/* 密碼 */}
-          <div style={styles.fieldGroup}>
-            <label style={styles.label}>密碼</label>
-            <div style={styles.inputWrapper}>
-              <span style={styles.inputIcon}>🔒</span>
-              <input
-                type={showPassword ? 'text' : 'password'}
-                placeholder="請輸入您的密碼"
-                value={form.password}
-                onChange={e => setForm({ ...form, password: e.target.value })}
-                onFocus={() => setFocusField('password')}
-                onBlur={() => setFocusField(null)}
-                style={getInputStyle('password')}
-                autoComplete="current-password"
-              />
-              <button
-                type="button"
-                style={styles.togglePassword}
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? '🙈' : '👁️'}
-              </button>
+            {/* 密碼 */}
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                <label style={{ fontSize: 12, fontWeight: 700, color: colors.textSecondary, letterSpacing: 0.5 }}>
+                  密碼
+                </label>
+                <span style={{ fontSize: 12, color: colors.brandPink, fontWeight: 600, cursor: 'pointer' }}>
+                  忘記密碼？
+                </span>
+              </div>
+              <div style={{ position: 'relative' }}>
+                <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
+                  <Icon name="lock" size={18} color={focusField === 'password' ? colors.brandPink : colors.textPlaceholder} />
+                </span>
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="請輸入密碼"
+                  value={form.password}
+                  onChange={e => setForm({ ...form, password: e.target.value })}
+                  onFocus={() => setFocusField('password')}
+                  onBlur={() => setFocusField(null)}
+                  style={{ ...inputStyle('password'), paddingRight: 48 }}
+                  autoComplete="current-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{
+                    position: 'absolute',
+                    right: 12,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: 6,
+                    color: colors.textMuted,
+                    lineHeight: 0,
+                  }}>
+                  <Icon name={showPassword ? 'eyeOff' : 'eye'} size={18} />
+                </button>
+              </div>
+              {errors.password && (
+                <div style={{ fontSize: 12, color: colors.danger, marginTop: 6, display: 'flex', alignItems: 'center', gap: 4 }}>
+                  <Icon name="alertCircle" size={12} color={colors.danger} />
+                  {errors.password}
+                </div>
+              )}
             </div>
-            {errors.password && <div style={styles.errorMsg}>⚠ {errors.password}</div>}
-          </div>
 
-          <div style={styles.forgotLink}>
-            <span style={styles.forgotText}>忘記密碼？</span>
-          </div>
+            {/* 登入按鈕 */}
+            <button
+              type="submit"
+              disabled={loading}
+              style={{
+                marginTop: 8,
+                padding: '14px',
+                background: loading ? '#9CA3AF' : `linear-gradient(135deg, ${colors.brandPink}, #E55A93)`,
+                color: '#FFFFFF',
+                border: 'none',
+                borderRadius: 10,
+                fontSize: 15,
+                fontWeight: 700,
+                cursor: loading ? 'not-allowed' : 'pointer',
+                boxShadow: loading ? 'none' : shadows.cta,
+                fontFamily: 'inherit',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 8,
+                transition: 'transform 0.1s',
+              }}
+              onMouseDown={e => !loading && (e.currentTarget.style.transform = 'scale(0.98)')}
+              onMouseUp={e => !loading && (e.currentTarget.style.transform = 'scale(1)')}
+              onMouseLeave={e => !loading && (e.currentTarget.style.transform = 'scale(1)')}>
+              {loading ? (
+                <>
+                  <span style={{
+                    display: 'inline-block',
+                    width: 16, height: 16,
+                    border: '2.5px solid rgba(255,255,255,0.4)',
+                    borderTopColor: '#FFFFFF',
+                    borderRadius: '50%',
+                    animation: 'spin 0.8s linear infinite',
+                  }} />
+                  登入中
+                </>
+              ) : (
+                <>
+                  <Icon name="logIn" size={18} color="#FFFFFF" />
+                  登入帳號
+                </>
+              )}
+            </button>
 
-          <button
-            type="submit"
-            className="submit-btn"
-            disabled={loading}
-            style={{ ...styles.submitBtn, ...(loading ? styles.submitBtnLoading : {}) }}
-          >
-            {loading && <span style={styles.loadingSpinner} />}
-            {loading ? '登入中...' : '登入'}
-          </button>
+            {/* Demo 帳號提示 */}
+            <div style={{
+              padding: '12px 14px',
+              background: colors.bgSoft,
+              border: `1px dashed ${colors.borderLight}`,
+              borderRadius: 10,
+              fontSize: 12,
+              color: colors.textMuted,
+              lineHeight: 1.6,
+            }}>
+              <div style={{ fontWeight: 700, color: colors.textSecondary, marginBottom: 4 }}>
+                試用 Demo 帳號
+              </div>
+              Email: <code style={{ background: '#FFFFFF', padding: '1px 6px', borderRadius: 4, color: colors.brandNavy }}>demo@egg.tw</code>
+              <span style={{ marginLeft: 8 }}>密碼: <code style={{ background: '#FFFFFF', padding: '1px 6px', borderRadius: 4, color: colors.brandNavy }}>demo123</code></span>
+            </div>
 
-          <div style={styles.divider}>
-            <div style={styles.dividerLine} />
-            <span style={styles.dividerText}>還沒有帳號？</span>
-            <div style={styles.dividerLine} />
-          </div>
+            {/* 分隔 + 註冊 */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              marginTop: 8,
+            }}>
+              <div style={{ flex: 1, height: 1, background: colors.borderLight }} />
+              <span style={{ fontSize: 12, color: colors.textMuted }}>還沒有帳號？</span>
+              <div style={{ flex: 1, height: 1, background: colors.borderLight }} />
+            </div>
 
-          <div style={styles.registerRow}>
-            立即加入孕（運）轉乾坤險
             <Link to="/register">
-              <span style={styles.registerLink}>免費註冊 →</span>
+              <button type="button" style={{
+                width: '100%',
+                padding: '13px',
+                background: '#FFFFFF',
+                color: colors.brandNavy,
+                border: `1.5px solid ${colors.borderLight}`,
+                borderRadius: 10,
+                fontSize: 14,
+                fontWeight: 700,
+                cursor: 'pointer',
+                fontFamily: 'inherit',
+                transition: 'all 0.15s',
+              }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = colors.brandNavy; e.currentTarget.style.background = colors.bgSoft; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = colors.borderLight; e.currentTarget.style.background = '#FFFFFF'; }}>
+                建立新帳號
+              </button>
             </Link>
-          </div>
-        </form>
-      </div>
+
+            {/* 法律提示 */}
+            <p style={{ fontSize: 11, color: colors.textMuted, textAlign: 'center', lineHeight: 1.7, marginTop: 8 }}>
+              登入即表示您同意我們的<span style={{ color: colors.brandPink, cursor: 'pointer' }}>服務條款</span>
+              與<span style={{ color: colors.brandPink, cursor: 'pointer' }}>隱私權政策</span>
+            </p>
+          </form>
+        </div>
+      </section>
     </div>
   );
 }
