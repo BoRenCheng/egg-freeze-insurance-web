@@ -1,26 +1,34 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import Sidebar from './Sidebar';
+import TopNavbar from './TopNavbar';
+import Footer from './Footer';
+import { colors } from '../theme';
 import useViewport from './shared/useViewport';
 
 export default function AppLayout() {
   const { isMobile } = useViewport();
+
   return (
     <div style={{
-      display: 'flex',
-      flexDirection: isMobile ? 'column' : 'row',
       minHeight: '100vh',
-      background: '#F5F3EE',
+      background: colors.bgWhite,
+      display: 'flex',
+      flexDirection: 'column',
+      color: colors.textPrimary,
     }}>
-      <Sidebar isMobile={isMobile} />
+      <TopNavbar />
+
       <main style={{
         flex: 1,
-        minWidth: 0,
-        padding: isMobile ? '16px 14px' : '32px 40px',
-        overflowX: 'hidden',
+        width: '100%',
+        maxWidth: 1280,
+        margin: '0 auto',
+        padding: isMobile ? '24px 16px' : '40px 32px',
       }}>
         <Outlet />
       </main>
+
+      <Footer />
     </div>
   );
 }

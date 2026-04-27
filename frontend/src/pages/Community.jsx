@@ -26,12 +26,12 @@ const styles = {
 
   tabs: {
     display: 'flex',
-    gap: 10,
+    gap: 8,
     flexWrap: 'wrap',
     background: '#FFFFFF',
-    padding: 12,
+    padding: 8,
     borderRadius: 14,
-    boxShadow: '0 2px 8px rgba(26,54,93,0.06)',
+    border: '1px solid #E5E7EB',
   },
   tab: (active, color) => ({
     padding: '10px 18px',
@@ -61,10 +61,11 @@ const styles = {
   postCard: {
     background: '#FFFFFF',
     borderRadius: 14,
-    padding: '18px 22px',
-    boxShadow: '0 4px 14px rgba(26,54,93,0.06)',
+    padding: '20px 22px',
+    border: '1px solid #E5E7EB',
+    boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
     marginBottom: 12,
-    transition: 'transform 0.2s, box-shadow 0.2s',
+    transition: 'all 0.2s ease',
     cursor: 'pointer',
   },
   postTags: { display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 8 },
@@ -114,7 +115,8 @@ const styles = {
     background: '#FFFFFF',
     borderRadius: 14,
     padding: 18,
-    boxShadow: '0 4px 14px rgba(26,54,93,0.06)',
+    border: '1px solid #E5E7EB',
+    boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
   },
   sectionHeader: { fontSize: 16, fontWeight: 800, color: '#1A365D', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 6 },
   accordionItem: {
@@ -153,7 +155,8 @@ const styles = {
     background: '#FFFFFF',
     borderRadius: 14,
     padding: 18,
-    boxShadow: '0 4px 14px rgba(26,54,93,0.06)',
+    border: '1px solid #E5E7EB',
+    boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
   },
   eduScroller: {
     display: 'flex',

@@ -11,16 +11,17 @@ export default function MetricCard({ icon, label, value, subtitle, accentColor =
         background: gradient || '#FFFFFF',
         borderRadius: 16,
         padding: '24px 24px',
+        border: '1px solid #E5E7EB',
+        borderLeft: `4px solid ${accentColor}`,
         boxShadow: hover
-          ? '0 12px 32px rgba(26,54,93,0.18)'
-          : '0 4px 16px rgba(26,54,93,0.08)',
+          ? '0 10px 25px rgba(0,0,0,0.08)'
+          : '0 1px 3px rgba(0,0,0,0.04)',
         transform: hover ? 'translateY(-4px)' : 'translateY(0)',
-        transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+        transition: 'all 0.25s ease',
         display: 'flex',
         flexDirection: 'column',
         gap: 8,
         cursor: 'default',
-        borderLeft: `4px solid ${accentColor}`,
         minHeight: 130,
       }}
     >

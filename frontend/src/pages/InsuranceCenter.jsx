@@ -134,7 +134,8 @@ const styles = {
     background: '#FFFFFF',
     borderRadius: 20,
     padding: '28px 32px',
-    boxShadow: '0 8px 24px rgba(26,54,93,0.08)',
+    border: '1px solid #E5E7EB',
+    boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
   },
   calcRow: {
     display: 'grid',

@@ -21,10 +21,19 @@
 
 body {
   font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: var(--bg);
-  color: var(--text-dark);
+  background-color: #FFFFFF;
+  color: #1F2937;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* 隱藏滾軸但保留滾動 */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* 全站柔和 selection 色 */
+::selection { background: #FCE7F3; color: #1A365D; }
 
 a {
   text-decoration: none;
