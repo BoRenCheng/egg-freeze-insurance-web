@@ -4,13 +4,15 @@
 >
 > 整合保險、生殖醫學（中西醫）、AI 諮詢與用戶社群，專為菁英女性、LGBTQ+ 同性伴侶、癌症病友等族群打造的凍卵保險生態系。
 
-🌐 **線上展示：** https://egg-freeze-insurance-web.onrender.com/login
-👤 **Demo 帳號：** `demo@egg.tw` / `demo123`
-💻 **GitHub：** https://github.com/BoRenCheng/egg-freeze-insurance-web
+ **線上展示：** https://egg-freeze-insurance-web.onrender.com/login
+ 
+ **Demo 帳號：** `demo@egg.tw` / `demo123`
+ 
+ **GitHub：** https://github.com/BoRenCheng/egg-freeze-insurance-web
 
 ---
 
-## 📑 目錄
+## 目錄
 
 1. [專案動機與商業背景](#專案動機與商業背景)
 2. [技術棧概覽](#技術棧概覽)
@@ -27,7 +29,7 @@
 ---
 
 ## 專案動機與商業背景
-> 🏆 **參與法國巴黎人壽（FRANCE PRÉVOYANCE）創新創業競賽 — 榮獲佳作**
+> **參與法國巴黎人壽（FRANCE PRÉVOYANCE）創新創業競賽 — 榮獲佳作**
 
 ### 為何做這個？
 
@@ -44,9 +46,9 @@
 ### 解決方案
 
 本專案打造**三方共贏的 Insurtech 生態系**：
-- 🏥 **凍卵中心 / 中西醫**：提供療程與調理服務
-- 🛡️ **保險公司**：依年齡與 AMH 值動態定價的個性化保單
-- 👤 **用戶**：一站式完成保單管理、健康追蹤、診所預約、AI 諮詢
+-  **凍卵中心 / 中西醫**：提供療程與調理服務
+-  **保險公司**：依年齡與 AMH 值動態定價的個性化保單
+-  **用戶**：一站式完成保單管理、健康追蹤、診所預約、AI 諮詢
 
 ### 目標客群分級
 
