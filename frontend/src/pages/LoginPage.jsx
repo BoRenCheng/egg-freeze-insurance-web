@@ -5,19 +5,6 @@ import { colors, shadows } from '../theme';
 import useViewport from '../components/shared/useViewport';
 import Icon from '../components/shared/Icon';
 
-const FEATURES = [
-  { iconName: 'shield',     title: '完整凍卵全流程保障', desc: '療程補助、手術併發症、保存不當補償' },
-  { iconName: 'chart',      title: '個人化保費試算',     desc: '依年齡、AMH、客群分級動態計價' },
-  { iconName: 'hospital',   title: '中西醫合作生態系',   desc: '12+ 合作診所、APP 預約獨家折扣' },
-  { iconName: 'sparkles',   title: 'AI 智能諮詢顧問',    desc: '24/7 卵卵助理，由 Gemini 提供' },
-];
-
-const TRUST_BADGES = [
-  { value: '4', label: '客群分級' },
-  { value: '5 年', label: '保險年限' },
-  { value: '佳作', label: '巴黎人壽競賽' },
-];
-
 export default function LoginPage() {
   const { isMobile, isTablet } = useViewport();
   const navigate = useNavigate();
@@ -168,87 +155,16 @@ export default function LoginPage() {
           </div>
 
           <h1 style={{
-            fontSize: isMobile ? 32 : 44,
+            fontSize: isMobile ? 32 : 52,
             fontWeight: 900,
             lineHeight: 1.2,
             letterSpacing: -0.5,
-            marginBottom: 16,
           }}>
             凍住希望
             <br />
             <span style={{ color: colors.brandPink }}>卵畫未來</span>
           </h1>
-
-          <p style={{
-            fontSize: 15,
-            color: '#CBD5E1',
-            lineHeight: 1.7,
-            maxWidth: 440,
-            marginBottom: isMobile ? 32 : 48,
-          }}>
-            整合保險、生殖醫學、AI 諮詢的 Insurtech 生態系。
-            專為菁英女性、LGBTQ+ 同性伴侶與癌症病友打造的凍卵保險平台。
-          </p>
-
-          {/* 功能列表 */}
-          {!isMobile && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              {FEATURES.map(f => (
-                <div key={f.title} style={{
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: 14,
-                }}>
-                  <div style={{
-                    width: 36, height: 36,
-                    borderRadius: 10,
-                    background: 'rgba(246,135,179,0.15)',
-                    border: '1px solid rgba(246,135,179,0.3)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0,
-                  }}>
-                    <Icon name={f.iconName} size={18} color={colors.brandPink} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: '#FFFFFF', marginBottom: 2 }}>
-                      {f.title}
-                    </div>
-                    <div style={{ fontSize: 12, color: '#94A3B8', lineHeight: 1.5 }}>
-                      {f.desc}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
         </div>
-
-        {/* 下半：信任徽章 */}
-        {!isMobile && (
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: 12,
-            paddingTop: 32,
-            marginTop: 32,
-            borderTop: '1px solid rgba(255,255,255,0.12)',
-            position: 'relative',
-            zIndex: 1,
-          }}>
-            {TRUST_BADGES.map(b => (
-              <div key={b.label}>
-                <div style={{ fontSize: 24, fontWeight: 900, color: '#FFFFFF', lineHeight: 1.1 }}>
-                  {b.value}
-                </div>
-                <div style={{ fontSize: 11, color: '#94A3B8', marginTop: 4, letterSpacing: 0.5 }}>
-                  {b.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
       </section>
 
       {/* === 右側：登入表單 === */}
