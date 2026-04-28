@@ -55,12 +55,14 @@ export default function LoginPage() {
   const heroStyle = {
     background: `linear-gradient(140deg, ${colors.brandNavyDark} 0%, ${colors.brandNavy} 60%, #2C4F7C 100%)`,
     color: '#FFFFFF',
-    padding: isMobile ? '40px 24px 56px' : '64px 56px',
+    padding: isMobile ? '60px 24px' : '64px 56px',
     position: 'relative',
     overflow: 'hidden',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
   };
 
   const formAreaStyle = {
@@ -115,8 +117,15 @@ export default function LoginPage() {
           pointerEvents: 'none',
         }} />
 
-        {/* 上半：品牌與標題 */}
-        <div style={{ position: 'relative', zIndex: 1 }}>
+        {/* 品牌與標題（垂直水平置中） */}
+        <div style={{
+          position: 'relative',
+          zIndex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 28,
+        }}>
           <div style={{
             display: 'inline-flex',
             alignItems: 'center',
@@ -127,7 +136,6 @@ export default function LoginPage() {
             borderRadius: 999,
             backdropFilter: 'blur(8px)',
             WebkitBackdropFilter: 'blur(8px)',
-            marginBottom: 28,
             fontSize: 11,
             fontWeight: 700,
             letterSpacing: 1.5,
@@ -136,7 +144,7 @@ export default function LoginPage() {
             <span style={{ color: '#E5E7EB' }}>FRANCE PRÉVOYANCE × 創新競賽佳作</span>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 24 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             <div style={{
               width: 48, height: 48,
               borderRadius: '50%',
@@ -148,17 +156,18 @@ export default function LoginPage() {
             }}>
               <Icon name="egg" size={24} color="#FFFFFF" fill="#FFFFFF" />
             </div>
-            <div>
+            <div style={{ textAlign: 'left' }}>
               <div style={{ fontSize: 13, opacity: 0.7, letterSpacing: 1.5 }}>EGG FREEZE INSURANCE</div>
               <div style={{ fontSize: 13, opacity: 0.7, letterSpacing: 1 }}>孕（運）轉乾坤險</div>
             </div>
           </div>
 
           <h1 style={{
-            fontSize: isMobile ? 32 : 52,
+            fontSize: isMobile ? 36 : 56,
             fontWeight: 900,
             lineHeight: 1.2,
             letterSpacing: -0.5,
+            margin: 0,
           }}>
             凍住希望
             <br />
