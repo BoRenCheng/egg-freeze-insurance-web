@@ -1,14 +1,16 @@
-# 孕（運）轉乾坤險 -- 具備登入系統與 SQLite 後端，並串接 Gemini API 提供智能諮詢，以 Docker 容器化並部署至 Render之凍卵保險資訊平台
+# 孕（運）轉乾坤險 — 凍卵保險全端 Insurtech 平台
 
-> 整合保險、生殖醫學（中西醫）、AI 諮詢與用戶社群的 **Insurtech 全端平台**
-> 專為菁英女性、LGBTQ+ 同性伴侶、癌症病友等族群打造的凍卵保險生態系
+> **整合 React + Express + SQLite + Gemini AI，以 Docker 容器化並部署至 Render 的凍卵保險資訊平台**
+>
+> 整合保險、生殖醫學（中西醫）、AI 諮詢與用戶社群，專為菁英女性、LGBTQ+ 同性伴侶、癌症病友等族群打造的凍卵保險生態系。
 
-**線上展示：** https://egg-freeze-insurance-web.onrender.com/login
+🌐 **線上展示：** https://egg-freeze-insurance-web.onrender.com/login
+👤 **Demo 帳號：** `demo@egg.tw` / `demo123`
+💻 **GitHub：** https://github.com/BoRenCheng/egg-freeze-insurance-web
 
-**Demo 帳號：** `demo@egg.tw` / `demo123`
 ---
 
-## 目錄
+## 📑 目錄
 
 1. [專案動機與商業背景](#專案動機與商業背景)
 2. [技術棧概覽](#技術棧概覽)
@@ -24,7 +26,8 @@
 
 ---
 
-## 專案動機與商業背景 -- (參與法國巴黎人壽創新創業競賽 榮獲佳作)
+## 專案動機與商業背景
+> 🏆 **參與法國巴黎人壽（FRANCE PRÉVOYANCE）創新創業競賽 — 榮獲佳作**
 
 ### 為何做這個？
 
@@ -40,10 +43,10 @@
 
 ### 解決方案
 
-本專案打造一個**三方共贏的 Insurtech 生態系**：
-- **凍卵中心 / 中西醫**：提供療程與調理服務
-- **保險公司**：依年齡與 AMH 值動態定價的個性化保單
-- **用戶**：一站式完成保單管理、健康追蹤、診所預約、AI 諮詢
+本專案打造**三方共贏的 Insurtech 生態系**：
+- 🏥 **凍卵中心 / 中西醫**：提供療程與調理服務
+- 🛡️ **保險公司**：依年齡與 AMH 值動態定價的個性化保單
+- 👤 **用戶**：一站式完成保單管理、健康追蹤、診所預約、AI 諮詢
 
 ### 目標客群分級
 
@@ -60,11 +63,12 @@
 
 | 分層 | 技術 | 選用理由 |
 |------|------|---------|
-| **前端框架** | React 18 + React Router v6 | SPA 體驗、社群龐大、Hooks 寫法簡潔 |
-| **HTTP 客戶端** | axios | 比 fetch 更易處理 interceptor、自動 JSON 解析 |
+| **前端框架** | React 18 + React Router v6 | SPA 體驗、Hooks 寫法簡潔 |
 | **資料視覺化** | recharts 3 | React 原生整合、響應式、動畫流暢 |
+| **HTTP 客戶端** | axios | interceptor 易於統一處理 token、自動 JSON 解析 |
+| **圖示系統** | 自製 SVG Icon 組件 | 30+ Lucide 風格 icon，零外部依賴 |
 | **後端框架** | Node.js 22 + Express 4 | 輕量、生態成熟、易部署 |
-| **資料庫** | SQLite（`node:sqlite` 內建模組）| 零依賴、免安裝、檔案級資料庫，部署簡單 |
+| **資料庫** | SQLite（`node:sqlite` 內建模組）| 零依賴、檔案級資料庫，部署簡單 |
 | **認證機制** | JWT (jsonwebtoken) + bcryptjs | 無狀態 token、雜湊密碼安全 |
 | **AI 服務** | Google Gemini 2.5 Flash | 免費 tier 充足、支援系統指令、多輪對話 |
 | **容器化** | Docker（多階段建置） | 環境一致性、可重現部署 |
@@ -76,7 +80,7 @@
 - ✅ **零配置**：不需要另外起資料庫服務、不用記連線字串
 - ✅ **檔案級備份**：直接複製 `.db` 檔案即可備份
 - ✅ **適合展示**：Render Free tier 不需付費掛 Cloud SQL
-- ✅ **Node 22+ 內建**：`node:sqlite` 模組無需 native compilation（避開 `better-sqlite3` 的編譯問題）
+- ✅ **Node 22+ 內建**：`node:sqlite` 模組無需 native compilation（避開 `better-sqlite3` 在 Node 24 的編譯問題）
 - ⚠️ **限制**：不適合高併發寫入；正式上線可平滑遷移到 PostgreSQL（schema 相容）
 
 ---
@@ -86,16 +90,17 @@
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                         使用者瀏覽器                          │
-│              https://egg-freeze-insurance.onrender.com       │
+│         https://egg-freeze-insurance-web.onrender.com        │
 └──────────────────────────┬──────────────────────────────────┘
-                           │ HTTPS
+                           │ HTTPS (TLS 1.3)
                            ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                    Render Web Service                        │
 │  ┌─────────────────────────────────────────────────────┐    │
-│  │              Docker Container (Node 22)              │    │
+│  │           Docker Container (Node 22 alpine)          │    │
+│  │                                                      │    │
 │  │  ┌──────────────────────────────────────────────┐   │    │
-│  │  │       Express App (server.js : 5000)          │   │    │
+│  │  │       Express App (server.js : 10000)         │   │    │
 │  │  │                                               │   │    │
 │  │  │  /              → 靜態托管 React build         │   │    │
 │  │  │  /api/login     → JWT 簽發                    │   │    │
@@ -104,9 +109,10 @@
 │  │  │  /api/insurance → 保單與保費試算              │   │    │
 │  │  │  /api/clinics   → 診所搜尋與預約              │   │    │
 │  │  │  /api/forum/*   → 論壇與 AI 諮詢              │   │    │
+│  │  │  /healthz       → Render 健康檢查              │   │    │
 │  │  │                                               │   │    │
 │  │  │       ┌───────────────────────────┐          │   │    │
-│  │  │       │  node:sqlite (內建)        │          │   │    │
+│  │  │       │  node:sqlite (內建模組)    │          │   │    │
 │  │  │       │  /data/insurance.db        │          │   │    │
 │  │  │       └───────────────────────────┘          │   │    │
 │  │  └──────────────┬───────────────────────────────┘   │    │
@@ -115,6 +121,7 @@
 │  │   ┌────────────────────────────────────┐            │    │
 │  │   │  Google Gemini API（外部）          │            │    │
 │  │   │  gemini-2.5-flash                   │            │    │
+│  │   │  systemInstruction + safetySettings │            │    │
 │  │   └────────────────────────────────────┘            │    │
 │  └─────────────────────────────────────────────────────┘    │
 └─────────────────────────────────────────────────────────────┘
@@ -123,6 +130,7 @@
                            │
                   ┌────────┴────────┐
                   │  GitHub Repo     │
+                  │  (BoRenCheng)    │
                   └─────────────────┘
 ```
 
@@ -132,61 +140,158 @@
 
 ## 1.1 設計理念
 
-整體視覺基於**簡報品牌**（凍住希望 卵畫未來）的色彩與情感調性：
+整體視覺以**簡潔白底 + 玫瑰粉強調色**為核心，靈感參考專業 Insurtech 網站的乾淨質感。所有色彩、陰影、圓角統一收斂在 `src/theme.js` 作為**單一設計來源 (Single Source of Truth)**：
 
-| 角色 | 色票 | 用途 |
-|------|------|------|
-| 主色（信賴） | `#1A365D` 深海軍藍 | Sidebar、標題、主按鈕 |
-| 漸層延伸 | `#5B6EC7` → `#1A365D` | 卡片背景漸層 |
-| 強調色（生命） | `#F687B3` 玫瑰粉 | 健康指標、CTA、AI 助理 |
-| 點綴色（溫暖） | `#F5A623` 金黃 | LOGO icon、優惠標籤 |
-| 背景 | `#F5F3EE` 米白 | 主內容區 |
+```javascript
+// frontend/src/theme.js
+export const colors = {
+  brandNavy:     '#1A365D',  // 主色 — 信賴感
+  brandPink:     '#F687B3',  // 強調色 — 健康、生命
+  brandGold:     '#F5A623',  // 點綴 — LOGO、競賽徽章
+  bgWhite:       '#FFFFFF',  // 主背景 — 簡潔
+  bgSoft:        '#F9FAFB',  // 區塊 alt 背景
+  textPrimary:   '#1F2937',  // 主要文字
+  textMuted:     '#6B7280',  // 次要文字
+  borderLight:   '#E5E7EB',  // 細分隔
+  // ...
+};
+
+export const shadows = {
+  card:      '0 4px 14px rgba(15,23,42,0.10), 0 2px 4px rgba(15,23,42,0.06)',
+  cardHover: '0 18px 40px rgba(15,23,42,0.18), 0 6px 14px rgba(15,23,42,0.10)',
+  cta:       '0 6px 18px rgba(246,135,179,0.45)',
+};
+```
 
 ### 設計原則
 
 1. **資訊層次**：標題 800 字重 / 數據 900 字重放大 / 次要資訊灰階
-2. **圓角統一**：卡片 `16-20px`、按鈕 `10-24px`、Pill 標籤 `12px+`
-3. **陰影分級**：靜態 `0 4px 16px`、Hover `0 12px 32px`、強調 `0 16px 48px`
-4. **動畫節奏**：所有 hover/focus 過渡 `0.2-0.25s ease`，數據動畫 `0.6-1.2s`
+2. **圓角統一**：卡片 `14-20px`、按鈕 `10-12px`、Pill 標籤 `999px`
+3. **陰影分級**：靜態雙層淺陰影、Hover 時上浮 4px 並加深陰影
+4. **動畫節奏**：所有 hover/focus 過渡 `0.15-0.25s ease`，數據動畫 `0.6-1.2s`
+5. **零 emoji 政策**：所有 icon 改用自製 SVG（除了 AI 助理頭像保留 🥚 作吉祥物）
 
-## 1.2 元件架構
+## 1.2 響應式佈局 (RWD)
+
+採用 **Mobile-first** 思維搭配自製 `useViewport` Hook，動態切換版面：
+
+```javascript
+// frontend/src/components/shared/useViewport.js
+export default function useViewport() {
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const onResize = () => setWidth(window.innerWidth);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+  return {
+    isMobile:  width < 768,
+    isTablet:  width >= 768 && width < 1024,
+    isDesktop: width >= 1024,
+  };
+}
+```
+
+### 三段式斷點
+
+| 斷點 | 寬度 | 主要佈局策略 |
+|------|------|-------------|
+| 📱 **手機** | `< 768px` | 單欄、頂部漢堡選單、抽屜式 nav |
+| 📋 **平板** | `768 – 1024px` | 雙欄卡片、橫向 navbar |
+| 🖥️ **電腦** | `> 1024px` | 三至四欄卡片、完整 navbar |
+
+### 實際應用範例
+
+```jsx
+// Dashboard.jsx：核心功能卡片動態切換列數
+const featureCols = isMobile ? '1fr'
+                  : isTablet ? 'repeat(2, 1fr)'
+                  : 'repeat(4, 1fr)';
+<div style={{ display: 'grid', gridTemplateColumns: featureCols, gap: 20 }}>
+  {/* 4 個功能卡 */}
+</div>
+```
+
+```jsx
+// LoginPage.jsx：手機時上下堆疊、桌面時左右雙欄
+<div style={{ gridTemplateColumns: isStacked ? '1fr' : '1.1fr 1fr' }}>
+  <section>{/* Hero */}</section>
+  <section>{/* Form */}</section>
+</div>
+```
+
+## 1.3 元件架構
 
 ```
 frontend/src/
 ├── App.jsx                    路由配置 + PrivateRoute 守衛
 ├── index.js / index.css       React 進入點 + 全域樣式
+├── theme.js                   ★ 統一設計 token（colors / shadows / radius）
 │
 ├── components/
-│   ├── AppLayout.jsx          整體佈局（Sidebar + Outlet）
-│   ├── Sidebar.jsx            側邊導覽 + 用戶資訊 + 登出
-│   └── shared/                跨頁可重用元件
+│   ├── AppLayout.jsx          整體佈局（TopNavbar + Outlet + Footer）
+│   ├── TopNavbar.jsx          ★ 頂部 Sticky 導覽列（手機含漢堡選單抽屜）
+│   ├── Footer.jsx             ★ 4 欄頁尾（品牌 / 服務 / 關於 / 聯絡）
+│   └── shared/
+│       ├── Icon.jsx           ★ 自製 SVG icon 系統（30+ Lucide 風格）
+│       ├── useViewport.js     ★ 響應式斷點 Hook
 │       ├── MetricCard.jsx     數據卡片（hover 浮起、左側色條）
 │       ├── Modal.jsx          彈出對話框（Esc 關閉、毛玻璃遮罩）
 │       ├── SkeletonCard.jsx   載入骨架屏
 │       └── CountUp.jsx        數字滾動動畫 hook
 │
 └── pages/
-    ├── LoginPage.jsx          登入（左 Hero + 右 Form 雙欄）
+    ├── LoginPage.jsx          登入（左 Hero 漸層 + 右 Form 雙欄）
     ├── RegisterPage.jsx       三步驟引導註冊
-    ├── Dashboard.jsx          總覽（4 大功能 tile）
+    ├── Dashboard.jsx          總覽（Hero + 統計區 + 4 欄功能卡）
     ├── HealthDashboard.jsx    健康儀表板（recharts 圖表）
     ├── InsuranceCenter.jsx    保險理賠（Glassmorphism + CountUp）
     ├── MedicalBooking.jsx     醫療預約（手機框 UI + 骨架屏）
     └── Community.jsx          社群（Tab + 手風琴 + AI Chat）
 ```
 
-### 為何採用 Inline Styles？
+## 1.4 為何採用 Inline Styles？
 
 放棄 styled-components / CSS Modules / Tailwind 的考量：
 - ✅ **零依賴**：減少 bundle 體積、避免框架衝突
 - ✅ **動態樣式直觀**：`style={hover ? hoverStyle : baseStyle}` 比 className 切換更直覺
 - ✅ **無命名衝突**：每個元件樣式 scoped 在自己檔案
-- ⚠️ 缺點：無法使用 `:hover` 偽類，需 JS 控制 → 用 `onMouseEnter/Leave` 補足
+- ✅ **配合 token**：所有顏色從 `theme.js` import，仍可達到設計系統一致性
+- ⚠️ 缺點：無法使用 `:hover` 偽類，需用 `useState + onMouseEnter/Leave` 補足
 
-## 1.3 路由與權限控制
+## 1.5 自製 SVG Icon 系統
+
+棄用 emoji，自建統一 icon library 於 `components/shared/Icon.jsx`，提供 30+ 個 **Lucide 風格**線條圖示：
 
 ```jsx
-// App.jsx - 兩層路由結構
+// 用法
+<Icon name="shield"  size={24} color="#F687B3" />
+<Icon name="chart"   size={20} color="#1A365D" strokeWidth={1.6} />
+<Icon name="logIn"   size={18} color="#FFFFFF" />
+```
+
+### 內建 icon 分類
+
+| 分類 | 圖示 |
+|------|------|
+| **功能模組** | chart, shield, hospital, message, users, calendar, sparkles, heartPulse |
+| **介面控制** | search, menu, close, arrowRight, chevronDown, check, plus, send |
+| **聯絡資訊** | mapPin, phone, mail, clock |
+| **社群** | facebook, instagram, twitter, line |
+| **狀態提示** | alertCircle, alertTriangle, info, star, award |
+| **表單與認證** | lock, eye, eyeOff, user, checkCircle, logIn |
+| **品牌** | egg（自畫蛋形 SVG） |
+
+### 為何自製不裝 lucide-react？
+
+- ✅ **bundle size 反而更小**（只 +2.6 KB vs lucide-react ~50KB）
+- ✅ **完全可控**（可自訂顏色、stroke 寬、fill）
+- ✅ **零外部依賴**（npm registry 異常時不影響建置）
+
+## 1.6 路由與權限控制
+
+```jsx
+// App.jsx — 兩層路由結構
 <Routes>
   {/* 公開路由 */}
   <Route path="/login"    element={<LoginPage />} />
@@ -211,7 +316,7 @@ function PrivateRoute({ children }) {
 
 未登入使用者試圖訪問 `/dashboard` 會被自動導向 `/login`。
 
-## 1.4 狀態管理策略
+## 1.7 狀態管理策略
 
 採用**輕量化** React Hooks，沒有引入 Redux / Zustand：
 
@@ -221,6 +326,7 @@ function PrivateRoute({ children }) {
 | **用戶資訊** | `localStorage` + 頁面層 `useState` | 登入後快取，頁面初始化時驗證 |
 | **頁面臨時狀態** | `useState` | 表單輸入、modal 開關、loading |
 | **副作用** | `useEffect` | API 呼叫、訂閱、計時器 |
+| **Viewport** | 自製 `useViewport` Hook | 響應式佈局判斷 |
 
 選擇理由：應用規模小、頁面間共享狀態少（僅 user）、不需跨元件通訊複雜邏輯。
 
@@ -236,6 +342,7 @@ backend/
 ├── db.js                  SQLite 連線 + Schema 定義（CREATE TABLE IF NOT EXISTS）
 ├── seed.js                種子資料：demo 用戶、AMH 歷史、論壇文章、診所
 ├── config.js              環境變數讀取（單一來源）
+├── inspect.js / query.js  開發用：資料庫檢視工具
 ├── middleware/
 │   └── auth.js            JWT 驗證中間件
 └── routes/
@@ -312,13 +419,13 @@ claims              -- 理賠申請
 │      │ ───────────────────────► │      │
 │      │                          │      │
 │      │                  ┌───────┴──┐   │
-│      │                  │ 1. 查 user │   │
-│      │                  │ 2. bcrypt  │   │
-│      │                  │   .compare │   │
-│      │                  │ 3. jwt.sign│   │
-│      │                  │   (7d 過期)│   │
+│      │                  │ 1. 查 user │  │
+│      │                  │ 2. bcrypt  │  │
+│      │                  │   .compare │  │
+│      │                  │ 3. jwt.sign│  │
+│      │                  │   (7d 過期) │  │
 │      │                  └───────┬──┘   │
-│      │  { token, user }          │      │
+│      │  { token, user }         │      │
 │      │ ◄─────────────────────── │      │
 │      │                                  │
 │ localStorage.setItem('token', ...)      │
@@ -727,8 +834,8 @@ volumes:
 本機 git push                Render Webhook              Docker Build           Live
      ↓                            ↓                            ↓                    ↓
 ┌─────────┐  push    ┌─────────────────┐  notify   ┌──────────────┐  deploy  ┌─────────┐
-│ GitHub  │ ───────► │ Render 偵測新 commit │ ────────► │ Build Pipeline │ ───────► │ Live URL │
-│ (main)  │           │  via webhook        │            │ (Dockerfile)   │          │   :443   │
+│ GitHub  │ ───────► │ Render 偵測新 commit│ ───────► │ Build Pipeline │ ───────► │ Live URL │
+│ (main)  │          │  via webhook       │          │ (Dockerfile)   │          │   :443   │
 └─────────┘          └─────────────────┘            └──────────────┘          └─────────┘
 ```
 
@@ -1005,6 +1112,7 @@ curl -X POST http://localhost:5000/api/forum/ask-ai \
 ```bash
 cd backend
 node --experimental-sqlite inspect.js   # 列出所有表的內容
+node --experimental-sqlite query.js     # 自訂 SQL 查詢
 ```
 
 ---
@@ -1022,6 +1130,7 @@ node --experimental-sqlite inspect.js   # 列出所有表的內容
 | HTTPS | Render 自動提供 Let's Encrypt 憑證 |
 | AI 輸入限制 | 問題長度上限 500 字元，防濫用 |
 | Error 回傳 | 不透露內部錯誤細節給前端 |
+| SVG icon | 純 inline SVG，無 XSS 風險（避免 dangerouslySetInnerHTML） |
 
 ---
 
@@ -1029,7 +1138,7 @@ node --experimental-sqlite inspect.js   # 列出所有表的內容
 
 本專案僅供實習以及推甄作品展示使用。
 PDF 簡報內容、品牌名稱、Logo 為原團隊智慧財產。
-Copyright (c) 2026 Bo-Ren Cheng(BoRenCheng)
+Copyright (c) 2026 Bo-Ren Cheng (BoRenCheng)
 本專案採用 MIT License 授權。
 
 ---
