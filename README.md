@@ -8,8 +8,6 @@
  
  **Demo 帳號：** `demo@egg.tw` / `demo123`
  
- **GitHub：** https://github.com/BoRenCheng/egg-freeze-insurance-web
-
 ---
 
 ## 目錄
